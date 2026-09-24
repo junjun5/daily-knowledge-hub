@@ -3,68 +3,220 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>📘 Daily Knowledge Hub | プロダクト開発 (SWE/PM)・日刊AI/ITトレンド・PHS Thailand</title>
+  <title>📘 Daily Knowledge Hub | SWE/PM開発・AIトレンド＆まとめ教科書・PHS Thailand</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", sans-serif; }
+    details > summary { list-style: none; }
+    details > summary::-webkit-details-marker { display: none; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
-  <!-- Header -->
+  <!-- Sticky Top Header -->
   <header class="sticky top-0 z-30 bg-slate-900 text-white border-b border-slate-800 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>
-        <div class="flex items-center gap-2">
-          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-600 text-white rounded-full">DAILY KNOWLEDGE HUB</span>
-          <span class="text-xs text-slate-400">Owner: jundeiiya@gmail.com | Auto-Updated Daily at 06:00 JST by Claude & Gemini</span>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-600 text-white rounded-full">GITHUB PAGES EDITION</span>
+          <span class="text-xs text-slate-400">Owner: jundeiiya@gmail.com | 毎朝 06:00 JST 自動更新 (Claude & Gemini)</span>
         </div>
         <h1 class="text-xl sm:text-2xl font-bold tracking-tight mt-1">
-          📘 プロダクト開発 (SWE / PM)・日刊AI/ITニュース・PHS Thailand 体系ノート
+          📘 Daily Knowledge Hub（SWE/PM 開発・AIトレンド＆まとめ教科書・PHS）
         </h1>
       </div>
 
       <!-- 3 Main Notebook Tabs -->
       <div class="flex flex-wrap gap-2" id="main-tabs">
-        <button onclick="switchCategory('swe_pm')" id="tab-swe_pm" class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-sm ring-2 ring-blue-400">
-          💻 ① CS & プロダクト開発 (SWE/PM)
+        <button onclick="switchCategory('ai_news')" id="tab-ai_news" class="px-4 py-2.5 rounded-lg text-sm font-bold transition-all bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-400">
+          📰 ① 日刊 AI/ITトレンド ＆ まとめ教科書
         </button>
-        <button onclick="switchCategory('ai_news')" id="tab-ai_news" class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
-          📰 ② 日刊 AI & IT ニュースノート
+        <button onclick="switchCategory('swe_pm')" id="tab-swe_pm" class="px-4 py-2.5 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
+          💻 ② CS基礎 & プロダクト開発 (SWE/PM)
         </button>
-        <button onclick="switchCategory('phs')" id="tab-phs" class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
+        <button onclick="switchCategory('phs')" id="tab-phs" class="px-4 py-2.5 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
           🏥 ③ PHS Thailand 公衆衛生ノート
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Main Grid -->
+  <!-- Main Layout -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <!-- Left Sidebar: Chapter Tabs -->
+    <!-- Left Sidebar: Search + Chapter Tabs -->
     <aside class="lg:col-span-3 space-y-4">
-      <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
-        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
-          📂 章・日付タブ切り替え
-        </h2>
-        <nav id="chapter-list" class="space-y-1.5"></nav>
+      <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm space-y-3">
+        <div>
+          <label class="text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-1.5">
+            🔍 キーワード検索
+          </label>
+          <input
+            type="text"
+            id="search-input"
+            oninput="handleSearch(this.value)"
+            placeholder="例: MCP, RAG, B+Tree, PRD, 罹患率..."
+            class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div class="pt-1 border-t border-slate-100">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5" id="sidebar-heading">
+            📂 収録チャプター・教科書一覧
+          </h2>
+          <nav id="chapter-list" class="space-y-1.5 max-h-[65vh] overflow-y-auto pr-1"></nav>
+        </div>
       </div>
 
       <div class="bg-slate-900 text-slate-200 rounded-xl p-4 text-xs space-y-2 shadow-sm">
         <div class="font-bold text-white flex items-center gap-1.5">
-          <span>⚡</span> 毎朝 06:00 JST 自動蓄積
+          <span>📘</span> 「ニュース × まとめ教科書」方式
         </div>
         <p class="text-slate-300 leading-relaxed">
-          プロダクト開発（SWE / PM・PdM）に必要なCS基礎・バックエンド設計・仕様策定スキルと、日々のAI/ITトレンド、PHS公衆衛生学をタブ別に体系化する専用ポータルです。
+          日々のAI・ITニュースを表面的に追うだけでなく、ニュースに出てきた技術（MCP, RAG, 量子化, エッジ推論等）をその場で体系的な「まとめ教科書」として深掘りし、Web上にストックしていきます。
         </p>
       </div>
     </aside>
 
-    <!-- Right Document Content -->
+    <!-- Right Main Textbook & News Viewer -->
     <main class="lg:col-span-9" id="doc-container"></main>
   </div>
 
-  <script>
-    const DATA = {
+  <script id="hub-data-script">
+    const HUB_DATA = {
+      ai_news: [
+        {
+          id: "ai-textbook-master",
+          badge: "📘 常設まとめ教科書 (Core Reference)",
+          title: "【体系まとめ教科書】プロダクト開発者のための生成AI・LLMシステム設計大全",
+          subtitle: "日々のAIニュースを理解するための土台となる「RAG vs Fine-Tuning」「Model Routing」「MCP」「評価(Eval)」の完全整理",
+          date: "Master Textbook (随時更新)",
+          heroImage: "./slides/ai_trend_agentic_rag_textbook_16x9.jpg",
+          heroCaption: "図解：本番AIプロダクトの4層標準アーキテクチャ（① Semantic Cache & Model Router ➔ ② Agentic Loop ➔ ③ MCP & Hybrid RAG ➔ ④ Guardrails & Structured JSON）",
+          takeaway: "🎯 この教科書の目的：毎日流れてくるAIニュース（「新しいモデルが出た」「MCPが普及した」「RAGの精度が上がった」など）を、単なる点ではなく『本番システムの4層マップのどこが進化したのか？』として構造的に位置づけて理解するためのベースキャンプです。",
+          sections: [
+            {
+              heading: "1. 【教科書 第1章】LLMに独自知識を扱わせる3大手法の使い分け（Prompting vs RAG vs Fine-Tuning）",
+              paragraphs: [
+                "プロダクト開発（SWE / PM）で『自社の最新データや専門知識に基づいたAI回答を作りたい』とき、最初からファインチューニング（追加学習）を選ぶのはアンチパターンです。以下の比較表の基準で選定します。"
+              ],
+              table: {
+                headers: ["比較軸", "① Long Context / Prompting", "② RAG (検索拡張生成・Hybrid Search)", "③ Fine-Tuning (ファインチューニング)"],
+                rows: [
+                  ["仕組み", "プロンプト枠（10万〜100万トークン）に直接資料を詰め込む", "質問に関連する箇所だけをベクトル検索＋全文検索で抽出して注入", "モデルの重み（パラメータ）自体を追加データで再学習・更新する"],
+                  ["向いている用途", "単一ドキュメントの要約、少数ファイルの一時的な分析", "社内Wiki・日々増えるDBデータ・最新ニュースの正確な参照（事実性の担保）", "特定の口調・特殊な出力フォーマット・専門言語への振る舞いの固定"],
+                  ["最新データの反映", "◎ 即時（毎回渡すだけ）", "◎ 即時（DBを1行更新すれば次の秒から反映される）", "× 困難（再学習に数時間〜数日と高コストがかかり、古い知識が残る）"],
+                  ["ハルシネーション対策", "○ 出典がプロンプト内にあれば抑えられる", "◎ 「検索結果にないことは答えない」制約と引用元明示で最も安全", "× 事実知識の記憶用使うと、もっともらしい嘘（ハルシネーション）をつきやすい"],
+                  ["コスト・レイテンシ", "△ 毎回大量トークンを送るとAPI費用が高くTTFTも遅くなる", "◎ 必要な数段落だけ注入するため安価かつ高速（1秒前後）", "○ 小型モデルを特化させれば推論時のトークン量は減らせる"]
+                ]
+              }
+            },
+            {
+              heading: "2. 【教科書 第2章】本番AIシステムの「コスト・速度・精度」を両立する4つのコア技術",
+              paragraphs: [
+                "プロトタイプ（PoC）と、何万人ものユーザーが毎日使う本番プロダクト（Production）の決定的な違いは、以下の4つの設計が組み込まれているかどうかです。"
+              ],
+              bullets: [
+                {
+                  label: "① Semantic Caching（セマンティック・キャッシュ）",
+                  desc: "ユーザーの質問文を埋め込みベクトル（Embedding）に変換し、過去の質問と意味的類似度（Cosine Similarity ≥ 0.95等）が高ければ、LLMを呼ばずにキャッシュから10ms未満で即答する。APIコストを30〜60%削減できる。"
+                },
+                {
+                  label: "② Model Routing（モデル・ルーティング / カスケード）",
+                  desc: "すべての入力を最高性能の大型モデルで処理すると遅くて破産する。まず軽量・爆速モデルで意図分類や定型処理を行い、高度な推論・設計判断が必要なリクエストだけを大型推論モデルへ振り分ける。"
+                },
+                {
+                  label: "③ Structured Outputs（JSON Schema 強制出力）",
+                  desc: "LLMの出力を自由な文章ではなく、厳密な型定義（JSON Schema / Pydantic / Zod）に強制する。これにより、フロントエンドのUIコンポーネントやデータベース保存処理がパースエラーで壊れるのを100%防ぐ。"
+                },
+                {
+                  label: "④ LLM-as-a-Judge & Evals（自動評価パイプライン）",
+                  desc: "プロンプトやモデルを変更した際、品質が劣化していないかを50〜100問のゴールデンテストセット（正解データ）に対して自動採点する仕組み。AIプロダクトにおけるユニットテストに相当する。"
+                }
+              ]
+            }
+          ],
+          qa: [
+            {
+              role: "理解度チェック（クリックして解答を表示）",
+              q: "Q1. 毎日更新される医療ガイドラインや商品在庫データを使ってAIに正確な回答をさせたい場合、Fine-Tuning と Hybrid RAG のどちらを選ぶべきですか？またその理由は？",
+              a: "【正解】Hybrid RAG（ベクトル検索＋キーワード検索の併用）を選びます。理由は、(1) 在庫や最新ガイドラインのように分単位・日単位で変わるデータはFine-Tuningではリアルタイム反映できないこと、(2) Fine-Tuningは「話し方や形式」を学ぶのには向いていますが、事実データの正確な暗記には向かずハルシネーションを起こすため、DBから最新事実を検索してプロンプトに注入するRAGが必須だからです。"
+            },
+            {
+              role: "理解度チェック（クリックして解答を表示）",
+              q: "Q2. AI機能のユーザー体験（UX）で「回答が表示されるまで5秒間画面が固まって見える」問題を解決するための、SWEとPMのベストプラクティスは？",
+              a: "【正解】(1) バックエンドからフロントエンドへ Server-Sent Events (SSE) によるストリーミング配信を行い、最初の1文字目（TTFT: Time To First Token）を0.3秒以内に画面に出すこと、(2) 推論中も「現在データベースを検索中… ➔ 要点を整理中…」とエージェントの思考ステップ（ステータスピル）を可視化して体感待ち時間をゼロにすることです。"
+            }
+          ],
+          vocab: [
+            { term: "Embedding (埋め込みベクトル)", meaning: "文章や画像の意味を数百〜数千次元の数値配列（ベクトル）に変換したもの。意味が近い文章同士はベクトル空間上で近い距離に配置される。" },
+            { term: "Hybrid RAG (ハイブリッド検索)", meaning: "意味の近さを捉える「ベクトル検索（Dense Retrieval）」と、型番や固有名詞の一致に強い「全文検索（BM25）」を組み合わせて検索精度を最大化する手法。" },
+            { term: "KV Cache (Key-Value キャッシュ)", meaning: "Transformerモデルが次の単語を予測する際、過去のトークンの計算結果をGPUメモリに保持して再計算を省く高速化技術（Prompt Cachingの正体）。" },
+            { term: "Quantization (量子化: FP16 ➔ INT8/INT4)", meaning: "モデルの重みパラメータの数値精度を16ビットから8ビットや4ビットに圧縮し、精度劣化を最小限に抑えながらメモリ消費と推論速度を2〜4倍改善する技術。" }
+          ]
+        },
+        {
+          id: "news-2026-09-24",
+          badge: "📰 日刊トレンド＋深掘り教科書 (2026-09-24)",
+          title: "【2026-09-24】自律型AIエージェント（MCP標準化）・Test-Time Compute（推論時計算）・Rust製高速ツール群",
+          subtitle: "今日の3大AI/ITニュースと、そこから学ぶ「MCP通信規格」「System 1 vs System 2 推論」のまとめ教科書",
+          date: "2026-09-24",
+          heroImage: "./slides/ai_trend_agentic_rag_textbook_16x9.jpg",
+          heroCaption: "今日のニュースの核心：AIが単発のチャット（System 1）から、計画・検証ループとMCP外部ツール接続を備えた自律エージェント（System 2）へ進化",
+          takeaway: "💡 今日のニュース×教科書サマリー：(1) AIと外部システムを繋ぐ共通規格『MCP (Model Context Protocol)』が事実上の業界標準になり、N×M個の個別連携開発が不要になったこと、(2) 事前学習（Pre-training）の巨大化だけでなく、回答前に思考ループを回す『Test-Time Compute（推論時スケーリング）』がコーディングや数学・設計タスクの精度を劇的に引き上げていることの2点が最重要トレンドです。",
+          sections: [
+            {
+              heading: "📌 News 1: AIエージェントと外部データ・ツールを繋ぐ「MCP (Model Context Protocol)」の急速な普及",
+              paragraphs: [
+                "【ニュースの背景】これまでAIアプリケーションがデータベース（PostgreSQL）、コード管理（GitHub）、ドキュメント、カレンダーなどを操作しようとすると、モデルごと・ツールごとに専用の連携コード（Glue Code）を個別に開発・保守する必要がありました。",
+                "【何が起きたか】USB-Cポートがあらゆる周辺機器を1つの規格で繋いだように、AIモデル（Host/Client）と外部データ・ツール（Server）をJSON-RPCベースで安全に繋ぐオープン規格『MCP (Model Context Protocol)』が急速に普及し、開発現場の標準アーキテクチャとなっています。"
+              ],
+              bullets: [
+                {
+                  label: "📘 教科書解説：MCPの3つの構成要素（Resources / Tools / Prompts）",
+                  desc: "MCPサーバーはAIに対して、(1) Resources（読み取り専用のファイルやDBレコード）、(2) Tools（AIが実行できる関数・API更新処理）、(3) Prompts（定型ワークフローのテンプレート）の3つを統一フォーマットで公開します。"
+                },
+                {
+                  label: "🚀 SWE / PM のプロダクト開発への活かし方",
+                  desc: "今後Webサービスや業務SaaSを開発する際、『人間がブラウザでポチポチ操作する画面』だけでなく、『外部のAIエージェントがMCP経由で安全にデータ取得・操作できるエンドポイント』を最初から提供できるプロダクトが圧倒的なエコシステム優位を築きます。"
+                }
+              ]
+            },
+            {
+              heading: "📌 News 2: 「事前学習の巨大化」から「Test-Time Compute（推論時思考ループ）」へのパラダイムシフト",
+              paragraphs: [
+                "【ニュースの背景】従来のLLMは、質問された瞬間に反射的に1トークン目から回答を書き始める『System 1（直感的・高速思考）』でした。しかし、複雑なバグ修正やシステム設計、数学的証明では途中で論理破綻することがありました。",
+                "【教科書整理】最新の推論モデル（Reasoning Models）は、ユーザーに最終回答を返す前に内部で仮説生成・自己批判（Reflection）・検証ステップを複数回ループさせる『System 2（熟考型推論 / Test-Time Compute）』を採用しています。"
+              ],
+              table: {
+                headers: ["比較軸", "従来の即時応答モデル (System 1 / Standard LLM)", "推論時スケーリング・エージェント型 (System 2 / Reasoning Loop)"],
+                rows: [
+                  ["思考プロセス", "入力直後に最初の単語から直線的に出力（やり直し不可）", "計画(Plan) ➔ 実行(Act) ➔ 検証(Observe/Reflect) を内部でループ"],
+                  ["得意なタスク", "要約・翻訳・定型チャット・高速な分類（低レイテンシ重視）", "複数ファイルのコード改修・アーキテクチャ設計・複雑な原因調査"],
+                  ["トレードオフ", "◎ 応答が速く（TTFT < 0.5秒）、トークン消費が少ない", "△ 思考トークンを消費するため数秒〜数十秒かかるが、正答率が劇的に高い"],
+                  ["PMのUX設計指針", "リアルタイム対話UI・オートコンプリートに採用する", "非同期バックグラウンド実行（「完了したら通知する」UX）として設計する"]
+                ]
+              }
+            },
+            {
+              heading: "📌 News 3: Rust製開発ツールチェーン（高速バンドラ・Linter・パッケージ管理）への全面移行",
+              paragraphs: [
+                "【ニュースとCS基礎の繋がり】フロントエンドのビルドツールやPythonのパッケージ管理（uv / Ruff等）が、従来のJavaScriptやPython実装から『Rust（AOTコンパイル＋メモリ安全なマルチスレッド処理）』へ置き換わり、CI/CD時間が1/5〜1/10に短縮されています。これは CSノート Chapter 1 で学んだ『機械語への事前コンパイルとCPUキャッシュ効率』が開発現場の生産性を直接変えている好例です。"
+              ]
+            }
+          ],
+          qa: [
+            {
+              role: "今日のトレンド理解度チェック（クリックして解答を表示）",
+              q: "Q. 熟考型モデル（System 2 / Agentic Loop）を使った機能をプロダクトに実装するとき、通常のチャット画面と同じUIにするとユーザーがストレスを感じるのはなぜですか？またPMとしてどうUXを設計すべきですか？",
+              a: "【正解】内部で計画・ツール実行・検証ループを回すため、最終回答が出るまでに10秒〜30秒以上の待ち時間が発生するからです。PMとしては、(1) 現在の実行ステップ（「SQLスキーマを確認中…」「テストを実行中…」）をリアルタイムに表示するプログレスUIにするか、(2) バックグラウンドタスクとして受け付け、完了時に通知やメールで結果を届ける非同期UXとして設計するのが鉄則です。"
+            }
+          ],
+          vocab: [
+            { term: "MCP (Model Context Protocol)", meaning: "LLMアプリ（Client）と外部のDB・API・開発ツール（Server）を1対1の個別実装なしで接続するためのオープン標準プロトコル。" },
+            { term: "Test-Time Compute (推論時計算スケーリング)", meaning: "モデルの学習時だけでなく、推論（回答生成）時に多くの思考ステップと検証時間を割り当てることで難問の正答率を高める手法。" },
+            { term: "Agentic Workflow (エージェント型ワークフロー)", meaning: "人間が細かい手順を指示しなくても、AI自身がゴールから逆算して計画を立て、ツールを呼び出し、エラーが出たら自己修正して完遂する仕組み。" }
+          ]
+        }
+      ],
       swe_pm: [
         {
           id: "roadmap",
@@ -224,51 +376,6 @@
           ]
         }
       ],
-      ai_news: [
-        {
-          id: "news-2026-09-24",
-          badge: "📰 Daily AI & Tech Brief",
-          title: "【2026-09-24】自律型AIエージェント(MCP)・エッジAI推論・Rust製高速ツール群の台頭",
-          subtitle: "毎日キュレーションする「AI・IT業界の重要ニュース」と「プロダクト開発（SWE/PM）への実践的示唆」専用ノート",
-          date: "2026-09-24",
-          takeaway: "💡 本日の総括：AI開発の主戦場は「チャットUI」から「バックグラウンドで外部API・DB・ブラウザを自律操作する Agentic Workflow（MCP標準化）」と「エッジでの超低遅延推論」へ移っています。PM/SWEとしては、人間用のUIだけでなく『AIエージェントが呼び出しやすい構造化API』を設計することが今後のプロダクト開発の鍵になります。",
-          sections: [
-            {
-              heading: "🔥 1. Agentic Coding & MCP (Model Context Protocol) による外部ツール連携の標準化",
-              paragraphs: [
-                "最新のAIモデルにおいて、単発の質問応答にとどまらず、DBスキーマの読み取り・コード改修・テスト実行・デプロイまでを自律的に行う『Agentic Workflow』が開発現場の標準になりつつあります。",
-                "特に、AIモデルと各種データソース（Git、RDB、社内ドキュメント等）を共通規格で繋ぐ MCP (Model Context Protocol) の普及により、ツールごとに個別の連携コードを書くコストが劇的に下がっています。"
-              ],
-              table: {
-                headers: ["視点", "従来のLLM組み込み開発", "これからの Agentic / MCP プロダクト開発"],
-                rows: [
-                  ["アーキテクチャ", "プロンプトにテキストを詰め込んで1回だけ回答を生成", "AIが状況に応じて複数のツール（検索・DB更新・検証）をループ実行"],
-                  ["SWEへの示唆", "JSON SchemaによるStructured Outputsと安全なサンドボックス設計が必須", "MCPサーバー規格に準拠したAPI設計とレート制限・権限管理の徹底"],
-                  ["PMへの示唆", "「AIとチャットする機能」を作るだけでは差別化できない", "「ユーザーの代わりに面倒な業務プロセスを裏側で完了させる体験」を設計する"]
-                ]
-              }
-            },
-            {
-              heading: "⚡ 2. エッジAI推論とセマンティックキャッシュによる「待ち時間ゼロ」のAI UX",
-              paragraphs: [
-                "AI機能をプロダクトに導入する際の最大の離脱要因は『回答が出るまで3〜5秒待たされるレイテンシ』です。エッジネットワーク（V8 Isolates等）と軽量高速モデルのストリーミング配信・セマンティックキャッシュを組み合わせることで、体感待ち時間200ms以下のAI機能が実装可能になっています。"
-              ]
-            }
-          ],
-          qa: [
-            {
-              role: "AI Product Manager / SWE 面接",
-              q: "自社プロダクトにLLMを組み込む際、APIコストの高騰とレイテンシ（応答の遅さ）をどうやって同時に解決しますか？",
-              a: "(1) すべてのリクエストに大型モデルを使わず、分類や要約は高速・安価な軽量モデルへ振り分ける Model Routing を行う、(2) よくある質問や類似クエリはベクトル類似度を用いた Semantic Cache（インメモリDB等）から10msで返却する、(3) 画面側は Server-Sent Events (SSE) ストリーミングで最初の1文字目（TTFT）を0.3秒以内に表示して体感待ち時間をなくします。"
-            }
-          ],
-          vocab: [
-            { term: "MCP (Model Context Protocol)", meaning: "AIモデルが外部のデータベース・API・ローカルツールと安全かつ統一的な形式でやり取りするためのオープンプロトコル。" },
-            { term: "TTFT (Time To First Token)", meaning: "ユーザーがリクエストを送ってから、AIの回答の最初の1文字目が画面に表示されるまでの時間。UXを左右する最重要指標。" },
-            { term: "Semantic Caching", meaning: "文字列の完全一致だけでなく「意味が同じ質問」をベクトル検索で判定してキャッシュから高速回答する技術。" }
-          ]
-        }
-      ],
       phs: [
         {
           id: "phs-ch1-epidemiology",
@@ -319,18 +426,24 @@
       ]
     };
 
-    let currentCategory = "swe_pm";
-    let currentChapterId = "ch2-db-edge";
+    let currentCategory = "ai_news";
+    let currentChapterId = "news-2026-09-24";
+    let searchQuery = "";
 
     function switchCategory(cat) {
       currentCategory = cat;
-      currentChapterId = DATA[cat][0].id;
-      ["swe_pm", "ai_news", "phs"].forEach((k) => {
+      currentChapterId = HUB_DATA[cat][0].id;
+      const styles = {
+        ai_news: "bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-400",
+        swe_pm: "bg-blue-600 text-white shadow-sm ring-2 ring-blue-400",
+        phs: "bg-purple-600 text-white shadow-sm ring-2 ring-purple-400"
+      };
+      ["ai_news", "swe_pm", "phs"].forEach((k) => {
         const btn = document.getElementById("tab-" + k);
         if (k === cat) {
-          btn.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-sm ring-2 ring-blue-400";
+          btn.className = "px-4 py-2.5 rounded-lg text-sm font-bold transition-all " + styles[k];
         } else {
-          btn.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700";
+          btn.className = "px-4 py-2.5 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700";
         }
       });
       renderSidebar();
@@ -343,9 +456,25 @@
       renderDoc();
     }
 
+    function handleSearch(val) {
+      searchQuery = (val || "").trim().toLowerCase();
+      renderSidebar();
+    }
+
     function renderSidebar() {
-      const list = DATA[currentCategory];
+      const list = HUB_DATA[currentCategory].filter((ch) => {
+        if (!searchQuery) return true;
+        const blob = JSON.stringify(ch).toLowerCase();
+        return blob.includes(searchQuery);
+      });
       const nav = document.getElementById("chapter-list");
+      if (list.length === 0) {
+        nav.innerHTML = `<div class="text-xs text-slate-400 py-4 text-center">該当するトピックがありません</div>`;
+        return;
+      }
+      if (!list.some((c) => c.id === currentChapterId)) {
+        currentChapterId = list[0].id;
+      }
       nav.innerHTML = list.map((ch) => {
         const active = ch.id === currentChapterId;
         return `
@@ -362,7 +491,7 @@
     }
 
     function renderDoc() {
-      const list = DATA[currentCategory];
+      const list = HUB_DATA[currentCategory];
       const doc = list.find((c) => c.id === currentChapterId) || list[0];
       const container = document.getElementById("doc-container");
 
@@ -375,6 +504,16 @@
 
       const sectionsHtml = doc.sections.map((s) => {
         const pHtml = (s.paragraphs || []).map((p) => `<p class="text-sm sm:text-base text-slate-700 leading-relaxed">${p}</p>`).join("");
+        const bulletsHtml = s.bullets ? `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+            ${s.bullets.map((b) => `
+              <div class="bg-slate-50 rounded-xl border border-slate-200 p-4">
+                <div class="font-bold text-sm text-blue-900 mb-1.5">${b.label}</div>
+                <div class="text-xs sm:text-sm text-slate-700 leading-relaxed">${b.desc}</div>
+              </div>
+            `).join("")}
+          </div>
+        ` : "";
         const tblHtml = s.table ? `
           <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-2xs mt-3">
             <table class="min-w-full divide-y divide-slate-200 text-left text-xs sm:text-sm">
@@ -391,21 +530,28 @@
             </table>
           </div>
         ` : "";
-        return `<section class="space-y-4"><h3 class="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-200 pb-2">${s.heading}</h3>${pHtml}${tblHtml}</section>`;
+        return `<section class="space-y-4"><h3 class="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-200 pb-2">${s.heading}</h3>${pHtml}${bulletsHtml}${tblHtml}</section>`;
       }).join("");
 
       const qaHtml = (doc.qa || []).map((item) => `
-        <div class="space-y-2">
-          <div class="text-xs font-bold text-blue-700">[${item.role}]</div>
-          <div class="font-bold text-sm sm:text-base text-slate-900">Q. ${item.q}</div>
-          <div class="text-xs sm:text-sm text-slate-800 leading-relaxed bg-white rounded-lg p-4 border border-blue-100">
-            <span class="font-bold text-emerald-700">模範解答の核：</span> ${item.a}
+        <details class="group bg-white rounded-xl border border-blue-200 overflow-hidden shadow-2xs">
+          <summary class="cursor-pointer p-4 flex items-start justify-between gap-3 hover:bg-blue-50/50 transition-colors">
+            <div>
+              <div class="text-xs font-bold text-blue-700 mb-1">[${item.role}]</div>
+              <div class="font-bold text-sm sm:text-base text-slate-900">${item.q}</div>
+            </div>
+            <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold shrink-0 group-open:bg-emerald-100 group-open:text-emerald-800">
+              解答を見る ▼
+            </span>
+          </summary>
+          <div class="p-4 pt-0 border-t border-slate-100 bg-emerald-50/30 text-xs sm:text-sm text-slate-800 leading-relaxed">
+            <div class="mt-3"><span class="font-bold text-emerald-700">💡 模範解答・解説：</span> ${item.a}</div>
           </div>
-        </div>
+        </details>
       `).join("");
 
       const vocabHtml = (doc.vocab || []).map((v) => `
-        <div class="rounded-lg border border-slate-200 p-3.5 bg-white">
+        <div class="rounded-lg border border-slate-200 p-3.5 bg-white hover:border-blue-300 transition-colors">
           <div class="font-bold text-sm text-slate-900">${v.term}</div>
           <div class="text-xs text-slate-600 mt-1 leading-relaxed">${v.meaning}</div>
         </div>
@@ -424,16 +570,18 @@
 
           <div class="p-6 sm:p-8 space-y-8">
             <div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-5">
-              <div class="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1">💡 プロダクト開発 (SWE / PM) における最重要ポイント</div>
+              <div class="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1">💡 要点サマリー ＆ プロダクト開発 (SWE / PM) への示唆</div>
               <p class="text-sm sm:text-base text-slate-800 leading-relaxed font-medium">${doc.takeaway}</p>
             </div>
 
             ${heroHtml}
             ${sectionsHtml}
 
-            <section class="bg-blue-50/70 rounded-xl border border-blue-200 p-5 space-y-4">
-              <h3 class="text-base sm:text-lg font-bold text-blue-950 flex items-center gap-2"><span>🎯</span> 選考・実務ケース面接 Q&A（SWE / PM 対策）</h3>
-              ${qaHtml}
+            <section class="bg-blue-50/70 rounded-xl border border-blue-200 p-5 space-y-3">
+              <h3 class="text-base sm:text-lg font-bold text-blue-950 flex items-center gap-2">
+                <span>🧠</span> インタラクティブ理解度チェック ＆ 面接Q&A（クリックで解答開閉）
+              </h3>
+              <div class="space-y-2.5">${qaHtml}</div>
             </section>
 
             <section class="space-y-3">

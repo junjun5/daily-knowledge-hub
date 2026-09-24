@@ -3,81 +3,134 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>📘 Daily Knowledge Hub | SWE/PM開発・AIトレンド＆まとめ教科書・PHS Thailand</title>
+  <title>Engineering & Public Health Notes — Technical Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Inter"', '"Noto Sans JP"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", sans-serif; }
+    body {
+      background-color: #FAFAFA;
+      color: #18181B;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
     details > summary { list-style: none; }
     details > summary::-webkit-details-marker { display: none; }
+    /* Subtle scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #E4E4E7; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #D4D4D8; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen">
-  <!-- Sticky Top Header -->
-  <header class="sticky top-0 z-30 bg-slate-900 text-white border-b border-slate-800 shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-600 text-white rounded-full">GITHUB PAGES EDITION</span>
-          <span class="text-xs text-slate-400">Owner: jundeiiya@gmail.com | 毎朝 06:00 JST 自動更新 (Claude & Gemini)</span>
+<body class="min-h-screen flex flex-col selection:bg-zinc-900 selection:text-white">
+
+  <!-- Minimal Top Navigation Bar (Stripe / Linear Docs Style) -->
+  <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-zinc-200">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-8 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-2.5">
+          <div class="w-5 h-5 rounded bg-zinc-900 text-white flex items-center justify-center font-mono text-[11px] font-semibold tracking-tighter">
+            N
+          </div>
+          <span class="font-semibold text-sm tracking-tight text-zinc-900">Knowledge Base</span>
+          <span class="text-zinc-300 text-sm">/</span>
+          <span class="font-mono text-xs text-zinc-500 hidden sm:inline">docs-v2.4</span>
         </div>
-        <h1 class="text-xl sm:text-2xl font-bold tracking-tight mt-1">
-          📘 Daily Knowledge Hub（SWE/PM 開発・AIトレンド＆まとめ教科書・PHS）
-        </h1>
+
+        <!-- Clean Segmented Domain Switcher -->
+        <nav class="hidden md:flex items-center gap-1 bg-zinc-100/80 p-1 rounded-md border border-zinc-200/70" id="main-tabs">
+          <button onclick="switchCategory('ai_news')" id="tab-ai_news" class="px-3 py-1 rounded text-xs font-medium transition-all">
+            AI Architecture & Daily Digest
+          </button>
+          <button onclick="switchCategory('swe_pm')" id="tab-swe_pm" class="px-3 py-1 rounded text-xs font-medium transition-all">
+            CS Fundamentals & Product (SWE/PM)
+          </button>
+          <button onclick="switchCategory('phs')" id="tab-phs" class="px-3 py-1 rounded text-xs font-medium transition-all">
+            Public Health & Biostatistics (PHS)
+          </button>
+        </nav>
       </div>
 
-      <!-- 3 Main Notebook Tabs -->
-      <div class="flex flex-wrap gap-2" id="main-tabs">
-        <button onclick="switchCategory('ai_news')" id="tab-ai_news" class="px-4 py-2.5 rounded-lg text-sm font-bold transition-all bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-400">
-          📰 ① 日刊 AI/ITトレンド ＆ まとめ教科書
-        </button>
-        <button onclick="switchCategory('swe_pm')" id="tab-swe_pm" class="px-4 py-2.5 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
-          💻 ② CS基礎 & プロダクト開発 (SWE/PM)
-        </button>
-        <button onclick="switchCategory('phs')" id="tab-phs" class="px-4 py-2.5 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
-          🏥 ③ PHS Thailand 公衆衛生ノート
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Layout -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <!-- Left Sidebar: Search + Chapter Tabs -->
-    <aside class="lg:col-span-3 space-y-4">
-      <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm space-y-3">
-        <div>
-          <label class="text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-1.5">
-            🔍 キーワード検索
-          </label>
+      <!-- Right Search Input -->
+      <div class="flex items-center gap-3 w-48 sm:w-64">
+        <div class="relative w-full">
+          <svg class="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
           <input
             type="text"
             id="search-input"
             oninput="handleSearch(this.value)"
-            placeholder="例: MCP, RAG, B+Tree, PRD, 罹患率..."
-            class="w-full px-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Search documentation..."
+            class="w-full pl-8 pr-3 py-1 text-xs bg-zinc-50 border border-zinc-200 rounded-md text-zinc-800 placeholder-zinc-400 focus:outline-none focus:bg-white focus:border-zinc-400 transition-colors"
           />
         </div>
-
-        <div class="pt-1 border-t border-slate-100">
-          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5" id="sidebar-heading">
-            📂 収録チャプター・教科書一覧
-          </h2>
-          <nav id="chapter-list" class="space-y-1.5 max-h-[65vh] overflow-y-auto pr-1"></nav>
-        </div>
       </div>
+    </div>
 
-      <div class="bg-slate-900 text-slate-200 rounded-xl p-4 text-xs space-y-2 shadow-sm">
-        <div class="font-bold text-white flex items-center gap-1.5">
-          <span>📘</span> 「ニュース × まとめ教科書」方式
+    <!-- Mobile Tab Bar -->
+    <div class="flex md:hidden border-t border-zinc-100 px-4 py-2 gap-1.5 overflow-x-auto bg-zinc-50/50">
+      <button onclick="switchCategory('ai_news')" id="mob-tab-ai_news" class="px-2.5 py-1 rounded text-xs font-medium whitespace-nowrap">
+        AI & Daily Digest
+      </button>
+      <button onclick="switchCategory('swe_pm')" id="mob-tab-swe_pm" class="px-2.5 py-1 rounded text-xs font-medium whitespace-nowrap">
+        CS & Product (SWE/PM)
+      </button>
+      <button onclick="switchCategory('phs')" id="mob-tab-phs" class="px-2.5 py-1 rounded text-xs font-medium whitespace-nowrap">
+        Public Health (PHS)
+      </button>
+    </div>
+  </header>
+
+  <!-- 3-Column Documentation Layout -->
+  <div class="max-w-[1400px] w-full mx-auto px-4 sm:px-8 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 py-8">
+
+    <!-- Left Column: Chapter Navigation Tree -->
+    <aside class="lg:col-span-3 lg:border-r lg:border-zinc-200/80 lg:pr-6">
+      <div class="sticky top-22 space-y-6">
+        <div>
+          <div class="font-mono text-[11px] font-medium uppercase tracking-wider text-zinc-400 mb-3 px-2" id="sidebar-category-label">
+            DOCUMENTS
+          </div>
+          <nav id="chapter-list" class="space-y-0.5"></nav>
         </div>
-        <p class="text-slate-300 leading-relaxed">
-          日々のAI・ITニュースを表面的に追うだけでなく、ニュースに出てきた技術（MCP, RAG, 量子化, エッジ推論等）をその場で体系的な「まとめ教科書」として深掘りし、Web上にストックしていきます。
-        </p>
+
+        <div class="border-t border-zinc-200/80 pt-5 px-2 space-y-2">
+          <div class="font-mono text-[10px] uppercase tracking-wider text-zinc-400">Editorial Policy</div>
+          <p class="text-xs text-zinc-500 leading-relaxed">
+            ニュースの表層的な要約ではなく、基盤技術（システム設計・データ構造・統計モデル）の原理原則に還元して記録する技術リファレンスです。
+          </p>
+        </div>
       </div>
     </aside>
 
-    <!-- Right Main Textbook & News Viewer -->
-    <main class="lg:col-span-9" id="doc-container"></main>
+    <!-- Center Column: Main Technical Document -->
+    <main class="lg:col-span-6 xl:col-span-7 min-w-0" id="doc-container"></main>
+
+    <!-- Right Column: On This Page (Table of Contents) -->
+    <aside class="hidden lg:block lg:col-span-3 xl:col-span-2">
+      <div class="sticky top-22 pl-2 border-l border-zinc-200/80 space-y-4">
+        <div class="font-mono text-[11px] font-medium uppercase tracking-wider text-zinc-400">
+          On this page
+        </div>
+        <nav id="toc-list" class="space-y-2 text-xs"></nav>
+      </div>
+    </aside>
+
   </div>
 
   <script id="hub-data-script">
@@ -85,367 +138,503 @@
       ai_news: [
         {
           id: "ai-textbook-master",
-          badge: "📘 常設まとめ教科書 (Core Reference)",
-          title: "【体系まとめ教科書】プロダクト開発者のための生成AI・LLMシステム設計大全",
-          subtitle: "日々のAIニュースを理解するための土台となる「RAG vs Fine-Tuning」「Model Routing」「MCP」「評価(Eval)」の完全整理",
-          date: "Master Textbook (随時更新)",
+          badge: "CORE REFERENCE",
+          title: "Production LLM Architecture — 生成AIシステム設計と技術選定の原則",
+          subtitle: "Prompt Engineering / Hybrid RAG / Fine-Tuning の定量的トレードオフと、本番運用の4層アーキテクチャ",
+          date: "Rev. 2026.09",
+          diagramType: "ai_arch",
           heroImage: "./slides/ai_trend_agentic_rag_textbook_16x9.jpg",
-          heroCaption: "図解：本番AIプロダクトの4層標準アーキテクチャ（① Semantic Cache & Model Router ➔ ② Agentic Loop ➔ ③ MCP & Hybrid RAG ➔ ④ Guardrails & Structured JSON）",
-          takeaway: "🎯 この教科書の目的：毎日流れてくるAIニュース（「新しいモデルが出た」「MCPが普及した」「RAGの精度が上がった」など）を、単なる点ではなく『本番システムの4層マップのどこが進化したのか？』として構造的に位置づけて理解するためのベースキャンプです。",
+          heroCaption: "Fig 1. Production AI System Architecture (Semantic Cache -> Model Router -> Agentic Loop -> Hybrid RAG & Guardrails)",
+          takeaway: "本ドキュメントは、日々発表されるLLMモデルや周辺プロトコルを「本番システムのどのレイヤーの課題を解決する技術か」という構造的視点で評価するためのリファレンスです。独自データを扱う際の第一選択は常に Hybrid RAG であり、Fine-Tuning は出力形式やドメイン固有表現の固定に限定します。",
           sections: [
             {
-              heading: "1. 【教科書 第1章】LLMに独自知識を扱わせる3大手法の使い分け（Prompting vs RAG vs Fine-Tuning）",
+              heading: "1. 独自知識統合における技術選定マトリクス (Prompting vs. RAG vs. Fine-Tuning)",
               paragraphs: [
-                "プロダクト開発（SWE / PM）で『自社の最新データや専門知識に基づいたAI回答を作りたい』とき、最初からファインチューニング（追加学習）を選ぶのはアンチパターンです。以下の比較表の基準で選定します。"
+                "業務データや最新ドキュメントに基づいた応答を生成する場合、モデルの重み自体を更新する Fine-Tuning（追加学習）を初期段階で選択するのは設計上のアンチパターンです。データの更新頻度、事実性（Factuality）の担保、および推論コストの観点から以下の基準で選定します。"
               ],
               table: {
-                headers: ["比較軸", "① Long Context / Prompting", "② RAG (検索拡張生成・Hybrid Search)", "③ Fine-Tuning (ファインチューニング)"],
+                headers: ["評価軸", "Long Context Prompting", "Hybrid RAG (Dense + BM25)", "Supervised Fine-Tuning (SFT)"],
                 rows: [
-                  ["仕組み", "プロンプト枠（10万〜100万トークン）に直接資料を詰め込む", "質問に関連する箇所だけをベクトル検索＋全文検索で抽出して注入", "モデルの重み（パラメータ）自体を追加データで再学習・更新する"],
-                  ["向いている用途", "単一ドキュメントの要約、少数ファイルの一時的な分析", "社内Wiki・日々増えるDBデータ・最新ニュースの正確な参照（事実性の担保）", "特定の口調・特殊な出力フォーマット・専門言語への振る舞いの固定"],
-                  ["最新データの反映", "◎ 即時（毎回渡すだけ）", "◎ 即時（DBを1行更新すれば次の秒から反映される）", "× 困難（再学習に数時間〜数日と高コストがかかり、古い知識が残る）"],
-                  ["ハルシネーション対策", "○ 出典がプロンプト内にあれば抑えられる", "◎ 「検索結果にないことは答えない」制約と引用元明示で最も安全", "× 事実知識の記憶用使うと、もっともらしい嘘（ハルシネーション）をつきやすい"],
-                  ["コスト・レイテンシ", "△ 毎回大量トークンを送るとAPI費用が高くTTFTも遅くなる", "◎ 必要な数段落だけ注入するため安価かつ高速（1秒前後）", "○ 小型モデルを特化させれば推論時のトークン量は減らせる"]
+                  ["基本原理", "コンテキスト枠（128k〜1Mトークン）へ直接資料を挿入", "ベクトル検索と全文検索で関連チャンクのみを動的に抽出・注入", "教師データを用いてモデルの重みパラメータ自体を再学習"],
+                  ["推奨ユースケース", "単一ドキュメントの要約、少数ファイルのアドホック分析", "社内規約・製品カタログ・日次更新データの正確な参照と引用", "特定の出力スキーマ・文体・専門DSLへの振る舞いの固定"],
+                  ["データ鮮度の反映", "即時（リクエスト毎に送信）", "即時（インデックス更新後、ミリ秒単位で反映）", "不可（再学習パイプラインの実行が必要・知識の陳腐化が起きる）"],
+                  ["Hallucination 抑制", "中（コンテキスト内の情報に依存）", "高（検索結果外の回答拒否とソース引用の強制が可能）", "低（未学習の事実や数値データに対して虚偽生成を起こしやすい）"],
+                  ["推論コスト / TTFT", "高コスト・高遅延（毎回大量の入力トークンを処理）", "低コスト・高速（上位k件の数百〜数千トークンのみ処理）", "中（小型モデルへ蒸留した場合は推論時のトークン単価を削減可能）"]
                 ]
               }
             },
             {
-              heading: "2. 【教科書 第2章】本番AIシステムの「コスト・速度・精度」を両立する4つのコア技術",
+              heading: "2. 本番環境のレイテンシとコストを制御する4つの設計パターン",
               paragraphs: [
-                "プロトタイプ（PoC）と、何万人ものユーザーが毎日使う本番プロダクト（Production）の決定的な違いは、以下の4つの設計が組み込まれているかどうかです。"
+                "プロトタイプ（PoC）と大規模トラフィックを処理する本番システム（Production）の境界は、LLM呼び出しの前後に配置されるキャッシュ・ルーティング・検証レイヤーの有無にあります。"
               ],
               bullets: [
                 {
-                  label: "① Semantic Caching（セマンティック・キャッシュ）",
-                  desc: "ユーザーの質問文を埋め込みベクトル（Embedding）に変換し、過去の質問と意味的類似度（Cosine Similarity ≥ 0.95等）が高ければ、LLMを呼ばずにキャッシュから10ms未満で即答する。APIコストを30〜60%削減できる。"
+                  label: "01 / Semantic Caching",
+                  desc: "入力クエリを Embedding ベクトルへ変換し、過去のクエリとのコサイン類似度（例: θ ≥ 0.95）をインメモリベクトルストアで判定。ヒット時はLLM推論をバイパスし 10ms 未満で応答を返すことで API コストを 30〜60% 削減する。"
                 },
                 {
-                  label: "② Model Routing（モデル・ルーティング / カスケード）",
-                  desc: "すべての入力を最高性能の大型モデルで処理すると遅くて破産する。まず軽量・爆速モデルで意図分類や定型処理を行い、高度な推論・設計判断が必要なリクエストだけを大型推論モデルへ振り分ける。"
+                  label: "02 / Model Routing & Cascading",
+                  desc: "すべてのリクエストを大型モデルで処理せず、前段の軽量・高速モデル（Classifier）で意図分類と難易度を判定。定型処理や抽出タスク（全体の約80〜90%）は小型モデルで処理し、複雑な推論のみを上位モデルへルーティングする。"
                 },
                 {
-                  label: "③ Structured Outputs（JSON Schema 強制出力）",
-                  desc: "LLMの出力を自由な文章ではなく、厳密な型定義（JSON Schema / Pydantic / Zod）に強制する。これにより、フロントエンドのUIコンポーネントやデータベース保存処理がパースエラーで壊れるのを100%防ぐ。"
+                  label: "03 / Constrained Decoding (Structured Outputs)",
+                  desc: "推論エンジンのトークン生成時に文脈自由文法（CFG）または JSON Schema に基づくマスク処理を適用し、Pydantic / TypeScript の型定義に100%準拠した出力を保証する。後続のDB保存やUI描画でのパースエラーを排除する。"
                 },
                 {
-                  label: "④ LLM-as-a-Judge & Evals（自動評価パイプライン）",
-                  desc: "プロンプトやモデルを変更した際、品質が劣化していないかを50〜100問のゴールデンテストセット（正解データ）に対して自動採点する仕組み。AIプロダクトにおけるユニットテストに相当する。"
+                  label: "04 / Automated Evaluation (LLM-as-a-Judge)",
+                  desc: "プロンプト変更やモデル更新時のリグレッション（品質劣化）を検知するため、50〜200件の Golden Dataset に対して「検索適合率（Context Precision）」「回答の忠実度（Faithfulness）」を CI/CD パイプライン上で自動計測する。"
                 }
               ]
             }
           ],
           qa: [
             {
-              role: "理解度チェック（クリックして解答を表示）",
-              q: "Q1. 毎日更新される医療ガイドラインや商品在庫データを使ってAIに正確な回答をさせたい場合、Fine-Tuning と Hybrid RAG のどちらを選ぶべきですか？またその理由は？",
-              a: "【正解】Hybrid RAG（ベクトル検索＋キーワード検索の併用）を選びます。理由は、(1) 在庫や最新ガイドラインのように分単位・日単位で変わるデータはFine-Tuningではリアルタイム反映できないこと、(2) Fine-Tuningは「話し方や形式」を学ぶのには向いていますが、事実データの正確な暗記には向かずハルシネーションを起こすため、DBから最新事実を検索してプロンプトに注入するRAGが必須だからです。"
+              role: "Architecture Review",
+              q: "日次で更新される在庫データベースや医療ガイドラインをAIに参照させる場合、Fine-Tuning ではなく Hybrid RAG を選択すべき技術的理由は何か？",
+              a: "理由は2点。(1) パラメータ更新を伴う Fine-Tuning では分単位・日単位のデータ更新をリアルタイムに反映できず、古い情報の消去（Unlearning）も困難であるため。(2) LLMの重みは「確率的な言語パターンの圧縮」であり、正確な数値や事実の記憶には不向きであるため、外部DBから確定事実を検索してコンテキストに注入する RAG が必須となる。"
             },
             {
-              role: "理解度チェック（クリックして解答を表示）",
-              q: "Q2. AI機能のユーザー体験（UX）で「回答が表示されるまで5秒間画面が固まって見える」問題を解決するための、SWEとPMのベストプラクティスは？",
-              a: "【正解】(1) バックエンドからフロントエンドへ Server-Sent Events (SSE) によるストリーミング配信を行い、最初の1文字目（TTFT: Time To First Token）を0.3秒以内に画面に出すこと、(2) 推論中も「現在データベースを検索中… ➔ 要点を整理中…」とエージェントの思考ステップ（ステータスピル）を可視化して体感待ち時間をゼロにすることです。"
+              role: "Product Engineering",
+              q: "LLMの推論に5秒以上を要する機能において、ユーザーの体感待ち時間を最小化するためのフロントエンド・バックエンド連携パターンは？",
+              a: "(1) Server-Sent Events (SSE) によるトークン単位のストリーミング配信を実装し、Time To First Token (TTFT) を 300ms 以内に抑える。(2) ツール呼び出しや検索を伴う場合は、現在の実行フェーズ（例: Indexing -> Retrieving -> Synthesizing）をステータスイベントとして先行送信し、UI側でプログレス表示を行う。"
             }
           ],
           vocab: [
-            { term: "Embedding (埋め込みベクトル)", meaning: "文章や画像の意味を数百〜数千次元の数値配列（ベクトル）に変換したもの。意味が近い文章同士はベクトル空間上で近い距離に配置される。" },
-            { term: "Hybrid RAG (ハイブリッド検索)", meaning: "意味の近さを捉える「ベクトル検索（Dense Retrieval）」と、型番や固有名詞の一致に強い「全文検索（BM25）」を組み合わせて検索精度を最大化する手法。" },
-            { term: "KV Cache (Key-Value キャッシュ)", meaning: "Transformerモデルが次の単語を予測する際、過去のトークンの計算結果をGPUメモリに保持して再計算を省く高速化技術（Prompt Cachingの正体）。" },
-            { term: "Quantization (量子化: FP16 ➔ INT8/INT4)", meaning: "モデルの重みパラメータの数値精度を16ビットから8ビットや4ビットに圧縮し、精度劣化を最小限に抑えながらメモリ消費と推論速度を2〜4倍改善する技術。" }
+            { term: "Hybrid Search (Dense + Sparse)", meaning: "意味的類似性を捉える密ベクトル検索（Embedding）と、固有名詞・型番の完全一致に強い疎ベクトル検索（BM25）を Reciprocal Rank Fusion (RRF) 等で統合する手法。" },
+            { term: "KV Cache (Key-Value Cache)", meaning: "自己回帰生成において、計算済みの過去トークンの Attention Key/Value テンソルを GPU HBM 上に保持し、再計算量を O(N²) から O(N) へ削減する機構。" },
+            { term: "Post-Training Quantization (PTQ)", meaning: "学習済みモデルの重みを FP16/BF16 から INT8/INT4 等へ離散化し、精度低下を最小限に抑えつつメモリ帯域幅のボトルネックを緩和する手法。" },
+            { term: "Time To First Token (TTFT)", meaning: "リクエスト送信から最初の1トークンがクライアントに到達するまでの所要時間。プロンプト長（Prefill 計算量）とネットワーク遅延に強く依存する。" }
           ]
         },
         {
           id: "news-2026-09-24",
-          badge: "📰 日刊トレンド＋深掘り教科書 (2026-09-24)",
-          title: "【2026-09-24】自律型AIエージェント（MCP標準化）・Test-Time Compute（推論時計算）・Rust製高速ツール群",
-          subtitle: "今日の3大AI/ITニュースと、そこから学ぶ「MCP通信規格」「System 1 vs System 2 推論」のまとめ教科書",
+          badge: "DIGEST / 2026-09-24",
+          title: "Model Context Protocol (MCP) の標準化と Test-Time Compute の設計構造",
+          subtitle: "外部ツール連携の N×M 問題を解消する通信仕様と、System 2 推論ループのレイテンシ設計",
           date: "2026-09-24",
+          diagramType: "mcp_ttc",
           heroImage: "./slides/ai_trend_agentic_rag_textbook_16x9.jpg",
-          heroCaption: "今日のニュースの核心：AIが単発のチャット（System 1）から、計画・検証ループとMCP外部ツール接続を備えた自律エージェント（System 2）へ進化",
-          takeaway: "💡 今日のニュース×教科書サマリー：(1) AIと外部システムを繋ぐ共通規格『MCP (Model Context Protocol)』が事実上の業界標準になり、N×M個の個別連携開発が不要になったこと、(2) 事前学習（Pre-training）の巨大化だけでなく、回答前に思考ループを回す『Test-Time Compute（推論時スケーリング）』がコーディングや数学・設計タスクの精度を劇的に引き上げていることの2点が最重要トレンドです。",
+          heroCaption: "Fig 2. Standardized Context Protocol & Reasoning Loop Architecture",
+          takeaway: "本日の技術トピックの核心は2点。(1) LLMホストと外部データソース（DB・Git・SaaS）間の通信を JSON-RPC 2.0 ベースで標準化する『MCP (Model Context Protocol)』の普及により、ツール毎の個別コネクタ実装が不要になりつつあること。(2) 事前学習（Pre-training）の規模拡大から、推論時に探索・自己検証ループを回す『Test-Time Compute』へ性能向上の主軸が移行していること。",
           sections: [
             {
-              heading: "📌 News 1: AIエージェントと外部データ・ツールを繋ぐ「MCP (Model Context Protocol)」の急速な普及",
+              heading: "1. Model Context Protocol (MCP) による外部連携の抽象化",
               paragraphs: [
-                "【ニュースの背景】これまでAIアプリケーションがデータベース（PostgreSQL）、コード管理（GitHub）、ドキュメント、カレンダーなどを操作しようとすると、モデルごと・ツールごとに専用の連携コード（Glue Code）を個別に開発・保守する必要がありました。",
-                "【何が起きたか】USB-Cポートがあらゆる周辺機器を1つの規格で繋いだように、AIモデル（Host/Client）と外部データ・ツール（Server）をJSON-RPCベースで安全に繋ぐオープン規格『MCP (Model Context Protocol)』が急速に普及し、開発現場の標準アーキテクチャとなっています。"
+                "従来、M種類のAIアプリケーションが N種類の外部システム（PostgreSQL, GitHub, Slack, 社内API等）と連携する場合、M × N 個の個別実装（Glue Code）が必要でした。MCP はクライアント・サーバー型の単一プロトコルを定義することで、この接続計算量を M + N へと削減します。",
+                "MCP サーバーは以下の3つのプリミティブを統一インターフェースとして公開します。"
               ],
               bullets: [
                 {
-                  label: "📘 教科書解説：MCPの3つの構成要素（Resources / Tools / Prompts）",
-                  desc: "MCPサーバーはAIに対して、(1) Resources（読み取り専用のファイルやDBレコード）、(2) Tools（AIが実行できる関数・API更新処理）、(3) Prompts（定型ワークフローのテンプレート）の3つを統一フォーマットで公開します。"
+                  label: "Resources (Read-Only Context)",
+                  desc: "ファイル内容、DBスキーマ、ログデータなど、クライアント側がコンテキストとして読み取り可能な構造化・非構造化データリソース（URI形式で識別）。"
                 },
                 {
-                  label: "🚀 SWE / PM のプロダクト開発への活かし方",
-                  desc: "今後Webサービスや業務SaaSを開発する際、『人間がブラウザでポチポチ操作する画面』だけでなく、『外部のAIエージェントがMCP経由で安全にデータ取得・操作できるエンドポイント』を最初から提供できるプロダクトが圧倒的なエコシステム優位を築きます。"
+                  label: "Tools (Executable Functions)",
+                  desc: "SQLクエリの実行、チケットの起票、PRの作成など、モデルが JSON Schema で定義された引数を渡して呼び出し可能な副作用を伴う関数。"
+                },
+                {
+                  label: "Prompts (Workflow Templates)",
+                  desc: "コードレビューや障害一次切り分けなど、特定のタスクを実行するための再利用可能なシステムプロンプトとコンテキストの組み合わせ定義。"
                 }
               ]
             },
             {
-              heading: "📌 News 2: 「事前学習の巨大化」から「Test-Time Compute（推論時思考ループ）」へのパラダイムシフト",
+              heading: "2. System 1（即時生成）と System 2（Test-Time Compute）の比較設計",
               paragraphs: [
-                "【ニュースの背景】従来のLLMは、質問された瞬間に反射的に1トークン目から回答を書き始める『System 1（直感的・高速思考）』でした。しかし、複雑なバグ修正やシステム設計、数学的証明では途中で論理破綻することがありました。",
-                "【教科書整理】最新の推論モデル（Reasoning Models）は、ユーザーに最終回答を返す前に内部で仮説生成・自己批判（Reflection）・検証ステップを複数回ループさせる『System 2（熟考型推論 / Test-Time Compute）』を採用しています。"
+                "単一パスで最初のトークンから逐次出力する従来の推論方式（System 1）に対し、出力前に計画（Plan）・中間推論（Chain-of-Thought）・自己検証（Verifier）のループを回す System 2 型推論（Test-Time Compute Scaling）がコード生成や数理最適化で標準となっています。"
               ],
               table: {
-                headers: ["比較軸", "従来の即時応答モデル (System 1 / Standard LLM)", "推論時スケーリング・エージェント型 (System 2 / Reasoning Loop)"],
+                headers: ["比較項目", "Standard Autoregressive (System 1)", "Test-Time Compute / Agentic Loop (System 2)"],
                 rows: [
-                  ["思考プロセス", "入力直後に最初の単語から直線的に出力（やり直し不可）", "計画(Plan) ➔ 実行(Act) ➔ 検証(Observe/Reflect) を内部でループ"],
-                  ["得意なタスク", "要約・翻訳・定型チャット・高速な分類（低レイテンシ重視）", "複数ファイルのコード改修・アーキテクチャ設計・複雑な原因調査"],
-                  ["トレードオフ", "◎ 応答が速く（TTFT < 0.5秒）、トークン消費が少ない", "△ 思考トークンを消費するため数秒〜数十秒かかるが、正答率が劇的に高い"],
-                  ["PMのUX設計指針", "リアルタイム対話UI・オートコンプリートに採用する", "非同期バックグラウンド実行（「完了したら通知する」UX）として設計する"]
+                  ["計算資源の配分", "事前学習（Pre-training）に計算量を集中、推論時は1パス出力", "推論時に内部思考トークンと複数候補の検証（Best-of-N / Search）へ計算量を配分"],
+                  ["適したタスク領域", "要約、翻訳、定型分類、低遅延チャット応答（TTFT < 500ms）", "複数ファイルに跨るリファクタリング、システム設計、複雑なバグの原因特定"],
+                  ["レイテンシ特性", "線形（出力トークン数に比例、数秒で完了）", "非線形（内部検証ループ回数に応じ 10秒〜数分を要する）"],
+                  ["プロダクトUI要件", "同期的なチャットインターフェース、インライン補完", "非同期ジョブキュー実行、思考ステップの可視化、完了時通知UX"]
                 ]
               }
             },
             {
-              heading: "📌 News 3: Rust製開発ツールチェーン（高速バンドラ・Linter・パッケージ管理）への全面移行",
+              heading: "3. 開発ツールチェーンのネイティブコード化 (Rust / Go への移行)",
               paragraphs: [
-                "【ニュースとCS基礎の繋がり】フロントエンドのビルドツールやPythonのパッケージ管理（uv / Ruff等）が、従来のJavaScriptやPython実装から『Rust（AOTコンパイル＋メモリ安全なマルチスレッド処理）』へ置き換わり、CI/CD時間が1/5〜1/10に短縮されています。これは CSノート Chapter 1 で学んだ『機械語への事前コンパイルとCPUキャッシュ効率』が開発現場の生産性を直接変えている好例です。"
+                "フロントエンドのバンドラ・Linter（Biome, Oxc, Rolldown）や Python のパッケージ・環境管理（uv, Ruff）において、従来のスクリプト言語実装から Rust 等の AOT コンパイル言語への置き換えが完了しつつあります。AST（抽象構文木）の解析をゼロコピー・マルチスレッドで実行することで CI パイプラインの実行時間が 1/5〜1/10 に短縮されており、CS基礎であるメモリレイアウトと並列処理が開発生産性に直結しています。"
               ]
             }
           ],
           qa: [
             {
-              role: "今日のトレンド理解度チェック（クリックして解答を表示）",
-              q: "Q. 熟考型モデル（System 2 / Agentic Loop）を使った機能をプロダクトに実装するとき、通常のチャット画面と同じUIにするとユーザーがストレスを感じるのはなぜですか？またPMとしてどうUXを設計すべきですか？",
-              a: "【正解】内部で計画・ツール実行・検証ループを回すため、最終回答が出るまでに10秒〜30秒以上の待ち時間が発生するからです。PMとしては、(1) 現在の実行ステップ（「SQLスキーマを確認中…」「テストを実行中…」）をリアルタイムに表示するプログレスUIにするか、(2) バックグラウンドタスクとして受け付け、完了時に通知やメールで結果を届ける非同期UXとして設計するのが鉄則です。"
+              role: "System Design",
+              q: "Test-Time Compute（熟考型モデル）を用いた機能を Web アプリケーションへ組み込む際、従来の REST API 同期レスポンス設計が破綻する理由と対策は？",
+              a: "推論完了までに 30〜120秒以上を要する場合、HTTP ゲートウェイやロードバランサのアイドルタイムアウト（通常 60秒）に抵触し接続が切断されるため。対策として、リクエスト受付時は即座に Job ID (`202 Accepted`) を返し、バックグラウンドワーカーで推論を実行しつつ WebSocket または SSE で進捗イベントを配信する非同期アーキテクチャを採用する。"
             }
           ],
           vocab: [
-            { term: "MCP (Model Context Protocol)", meaning: "LLMアプリ（Client）と外部のDB・API・開発ツール（Server）を1対1の個別実装なしで接続するためのオープン標準プロトコル。" },
-            { term: "Test-Time Compute (推論時計算スケーリング)", meaning: "モデルの学習時だけでなく、推論（回答生成）時に多くの思考ステップと検証時間を割り当てることで難問の正答率を高める手法。" },
-            { term: "Agentic Workflow (エージェント型ワークフロー)", meaning: "人間が細かい手順を指示しなくても、AI自身がゴールから逆算して計画を立て、ツールを呼び出し、エラーが出たら自己修正して完遂する仕組み。" }
+            { term: "JSON-RPC 2.0", meaning: "MCP がトランスポート層（stdio または HTTP SSE）の上で採用している、ステートレスで軽量なリモートプロシージャコール仕様。" },
+            { term: "Test-Time Compute Scaling", meaning: "推論時に割り当てる計算量（思考トークン長や探索木幅）を増やすことで、モデルサイズを拡大せずにタスク正答率を対数線形的に向上させる手法。" }
           ]
         }
       ],
       swe_pm: [
         {
           id: "roadmap",
-          badge: "🗺️ Master Roadmap",
-          title: "プロダクト開発（SWE / PM・PdM）を目指すための体系的カリキュラム",
-          subtitle: "CS基礎から大規模バックエンド・DB設計、そしてプロダクトマネジメント（PRD・KPI設計・技術的意思決定）までを繋ぐ全体設計図",
-          date: "Updated: 2026-09-24",
-          takeaway: "日本でプロダクト開発サイド（SWE / PM・PdM）へ進む上で最大の武器になるのは、「ビジネス上のユーザー課題・KPI」と「裏側のシステム制約（DB構造・API設計・レイテンシ・インフラコスト）」を同じ解像度で語れることです。毎日1章ずつ、以下の4フェーズを体系的に積み上げます。",
+          badge: "CURRICULUM",
+          title: "Software Engineering & Product Management — 体系カリキュラム",
+          subtitle: "低レイヤーの計算機科学（CS）から分散データベース、プロダクト要求仕様（PRD）までを接続する4階層モデル",
+          date: "Rev. 2026.09",
+          diagramType: "swe_layers",
+          takeaway: "プロダクト開発（SWE / PM・PdM）において最も希少価値が高いのは、ユーザー課題や事業KPI（Why / What）と、それを支えるデータベース構造・ネットワーク遅延・インフラコスト（How）を同一の解像度で設計できる能力です。本ノートは以下の4フェーズを順に体系化します。",
           sections: [
             {
-              heading: "1. プロダクト開発 (SWE × PM) 4大レイヤーと学習ロードマップ",
+              heading: "1. プロダクト開発の4階層と学習領域",
               paragraphs: [
-                "教科書的なCS知識だけで終わらせず、実際の開発現場や選考（技術面接・システム設計面接・PMケース面接）でそのまま使える実践知識として体系化しています。"
+                "個別のフレームワークの使い方を暗記するのではなく、寿命の長い基礎原理（Lindy Effect の高い知識）から順に積み上げます。"
               ],
               table: {
-                headers: ["フェーズ", "領域", "学ぶコアテーマ", "SWE / PM 実務での活かし方"],
+                headers: ["Phase", "Domain", "Core Topics", "Engineering / Product Decision Impact"],
                 rows: [
-                  ["Phase 1", "CS & OS Core", "Ch.1 半導体・論理ゲート・コンパイラ / Ch.2 CPUキャッシュ・仮想メモリ・非同期ランタイム", "言語選定（Rust/Go/TS/Python）、メモリリークや高負荷時のボトルネック特定"],
-                  ["Phase 2", "Database & Storage", "Ch.3 B+Tree vs LSM-Tree / Ch.4 ACID・分離レベル・複合インデックス・水平シャーディング", "機能の特性（検索重視か大量書込か）に応じたリレーショナルDB vs NoSQLの選定"],
-                  ["Phase 3", "Network, Edge & Scale", "Ch.5 分散インメモリキャッシュ / Ch.6 エッジネットワーク(Anycast CDN)・レート制限・認証基盤", "低遅延UXの実現、急激なトラフィック増（スパイク）でも落ちない高可用性アーキテクチャ設計"],
-                  ["Phase 4", "Product Management", "Ch.7 PRD（要求仕様書）とAPI契約 / Ch.8 KPIツリー(NSM)・A/Bテスト統計・RICE優先度評価", "エンジニアと対等に仕様を詰められる技術的PM力、最小工数で最大価値を生むMVP設計"]
+                  ["Phase 01", "CS & OS Internals", "半導体論理ゲート、コンパイラ(AST/SSA)、CPUキャッシュ階層、仮想メモリ、非同期I/O(epoll/kqueue)", "言語・ランタイム選定、高負荷時のCPU/メモリボトルネックの論理的特定"],
+                  ["Phase 02", "Storage & Database", "B+Tree vs. LSM-Tree、WAL、ACID分離レベル、複合インデックス設計、水平シャーディング", "Read/Write比率と整合性要件に応じた RDB / Key-Value / 列指向DBの選定"],
+                  ["Phase 03", "Distributed Systems", "Anycast CDN、インメモリキャッシュ戦略、Rate Limiting、冪等性(Idempotency)、非同期キュー", "スパイク負荷に対する耐障害性設計、P99レイテンシの保証、二重決済の防止"],
+                  ["Phase 04", "Product Management", "PRD（要求仕様書）、状態遷移図(State Machine)、North Star Metric、A/Bテスト統計検定", "手戻りのない仕様定義、ガードレール指標を用いた安全な機能ロールアウト"]
                 ]
               }
             }
           ],
           qa: [
             {
-              role: "SWE / PM 共通面接",
-              q: "新機能を開発するとき、どうやって技術スタックやDB設計のトレードオフを決めますか？",
-              a: "まずユーザー体験上の許容レイテンシ（例：画面遷移は200ms以内）とデータの一貫性要件（決済のようにACIDトランザクションが必須か、タイムラインのように結果整合性で良いか）を定義します。その上でRead/Write比率を見積もり、Read重視ならRDB(B+Tree)＋インメモリキャッシュ、Write大量ならLSM-Tree型DBや非同期メッセージキューを選択します。"
+              role: "Technical PM / Senior SWE",
+              q: "新規機能の技術仕様を策定する際、データベース選定とキャッシュ有無はどの指標から逆算して決定するか？",
+              a: "(1) トランザクション整合性要件（強整合性が必須か、結果整合性で許容されるか）、(2) 想定 QPS と Read/Write 比率（例: 95:5 か 20:80 か）、(3) 許容される P99 レイテンシ（例: 100ms 以下）の3点から逆算する。"
             }
           ],
           vocab: [
-            { term: "PRD (Product Requirements Document)", meaning: "「なぜ作るか(Why)」「誰の何を解決するか(What)」「成功指標(Metrics)」「非機能要件(Latency/SLA)」を定義する要求仕様書。" },
-            { term: "Non-Functional Requirements (非機能要件)", meaning: "機能そのものではなく、性能（応答速度）、可用性（稼働率99.9%）、セキュリティ、保守性などプロダクトの品質を決める技術要件。" }
+            { term: "P99 Latency (99パーセンタイル遅延)", meaning: "全リクエストを応答時間の速い順に並べた際、最も遅い上位1%の境界値。平均値（Mean）では隠れてしまう長尾の遅延（Tail Latency）を評価する標準指標。" },
+            { term: "State Machine (有限状態機械)", meaning: "オブジェクトが取りうる「状態（State）」と、どの「イベント（Event）」によって次の状態へ遷移するかを厳密に定義したモデル。" }
           ]
         },
         {
           id: "ch1-silicon-compiler",
-          badge: "Chapter 1 (CS基礎)",
-          title: "半導体チップ・論理ゲートとコンパイラの本質",
-          subtitle: "人間が書くコード（Python / TypeScript / Rust）はどうやってシリコン上の「0と1の電圧」に変わるのか？",
+          badge: "CHAPTER 01 / CS CORE",
+          title: "Silicon, Logic Gates & Compilers — 抽象化階層の基底",
+          subtitle: "高級言語のソースコードが AST・中間表現（IR）・機械語（ISA）を経て MOSFET の電圧変化へ変換されるプロセス",
           date: "2026-09-24",
+          diagramType: "compiler_pipeline",
           heroImage: "./slides/cs_ch1_compiler_silicon_16x9.jpg",
-          heroCaption: "図解：高級言語（Stage 1）からコンパイラ/AST（Stage 2）、機械語ISA（Stage 3）を経てシリコンCPUの論理ゲート（Stage 4）で実行されるまでの全体フロー",
-          takeaway: "🎯 SWE/PM視点のポイント：「なぜPythonよりRustやGoが10倍〜50倍速く、サーバーインフラ費用を1/5に削減できるのか？」の答えはこのコンパイル過程にあります。プロダクトの初期検証（PoC）は開発速度の速いTS/Pythonで行い、高負荷なコア基盤はネイティブ機械語にコンパイルされる言語へ切り出すのが現代プロダクト開発の定石です。",
+          heroCaption: "Fig 1.1 High-Level Source Code -> Compiler AST/IR -> Machine ISA -> CMOS Logic Gates",
+          takeaway: "Python や TypeScript と、Rust や Go の間に存在する 10〜50倍の実行速度差およびメモリ消費量の差は、この変換パイプラインとランタイム構造の違いから生じます。開発速度（イテレーション）を優先するフェーズと、計算資源効率（インフラコスト削減）を優先するフェーズで適切な抽象化レイヤーを選択するための基礎です。",
           sections: [
             {
-              heading: "1. コア概念：すべては「電圧のON/OFF（0Vと1V）」に帰着する",
+              heading: "1. 物理層：なぜデジタル計算機は二進数（0と1）を採用するのか",
               paragraphs: [
-                "コンピュータの心臓部であるCPU（プロセッサ）は、指先の爪ほどのシリコン結晶の上に数十億個の微細な半導体スイッチ（MOSFETトランジスタ）を集積したものです。",
-                "なぜ「0〜9」の十進数ではなく「0と1」の二進数だけを使うのでしょうか？もし電圧を0V〜9Vの10段階で表現しようとすると、発熱や電磁ノイズで少し電圧が揺らいだだけで「3が4に化ける」という計算ミスが起きます。しかし「電圧が高い（約1V＝1）」「電圧が低い（0V＝0）」の2状態だけに絞れば、毎秒数十億回（数GHz）の超高速スイッチングでも100%正確な計算が可能になります。"
+                "プロセッサ（CPU）は、シリコンウェハー上に数十億個の MOSFET（金属酸化膜半導体電界効果トランジスタ）を集積した回路です。物理的な電圧は連続値（アナログ）ですが、もし 0V〜9V の10段階で十進数を直接表現しようとすれば、熱雑音や配線間のクロストークによって電圧がわずかに変動しただけで誤計算が発生します。",
+                "閾値電圧を境に「Low（0V付近 = 0）」と「High（約0.8V〜1.0V = 1）」の2状態（双安定状態）のみに限定することで、高いノイズマージンを確保し、毎秒数十億回（数GHz）のクロック周波数でも誤りなく論理演算（NAND, NOR, XOR）および加算回路（Full Adder / ALU）を駆動できます。"
               ]
             },
             {
-              heading: "2. コンパイラ言語 vs インタプリタ/JIT言語の徹底比較",
-              paragraphs: ["バックエンド・インフラの技術選定で必ず直面する違いです。"],
+              heading: "2. 言語処理系：AOT コンパイラと JIT / インタプリタの構造比較",
+              paragraphs: [
+                "バックエンドサービスの技術選定において、実行方式の違いはサーバー台数（クラウド費用）とコールドスタート時間に直結します。"
+              ],
               table: {
-                headers: ["比較軸", "AOTコンパイラ言語 (Rust / Go / C++)", "インタプリタ・JIT言語 (Python / Node.js / Ruby)"],
+                headers: ["比較項目", "AOT Compiler (Rust / Go / C++)", "JIT / Interpreter (TypeScript V8 / Python)"],
                 rows: [
-                  ["変換タイミング", "実行前に全文を一括で機械語（0と1）へ翻訳", "実行しながら1行ずつ解析、頻出箇所をJITで機械語化"],
-                  ["実行速度・メモリ効率", "極めて高速・省メモリ（GC停止がないRustは特に高速）", "オーバーヘッドが大きいが、I/O待ち主体なら十分実用的"],
-                  ["サーバーインフラ費用", "同一トラフィックを少ないCPU/RAMで捌けるため安価", "スケール時にコンテナ数・メモリが多く必要になりやすい"],
-                  ["プロダクト開発での適性", "高負荷API基盤・決済・エッジ処理・高速ビルドツール", "AI/ML連携・迅速なMVP開発・Webアプリケーション全般"]
+                  ["機械語への変換時期", "ビルド時（実行前にターゲットISAのネイティブバイナリを生成）", "実行時（バイトコード解釈＋ホットスポットを実行中に機械語へJITコンパイル）"],
+                  ["メモリ管理とGC", "Rust: コンパイル時所有権検査（GC停止ゼロ） / Go: 低遅延並行GC", "世代別ガベージコレクション（ヒープ使用量が増えやすくGCポーズが発生しうる）"],
+                  ["CPUキャッシュ効率", "構造体を連続メモリ領域（Stack / Vec）へ密に配置可能で L1/L2 ヒット率が高い", "オブジェクトがポインタ参照（Box化）になりやすくキャッシュミスが増えやすい"],
+                  ["適したワークロード", "高スループットAPIゲートウェイ、ストリーム処理、エッジワーカー、CLI基盤", "I/OバウンドなWebアプリ、迅速な仕様変更を伴うドメインロジック、MLオーケストレーション"]
                 ]
               }
             }
           ],
           qa: [
             {
-              role: "プロダクト開発 SWE 面接",
-              q: "クラウドサーバーで従来の x86_64 プロセッサから ARM64 プロセッサに切り替えると電力効率・コストが大幅に改善するのはなぜですか？",
-              a: "x86_64は可変長命令を持つCISCアーキテクチャであり、CPU内部の命令デコーダ回路が複雑で電力を多く消費します。一方、ARM64は固定長命令のRISCアーキテクチャであり、デコード回路がシンプルで1ワットあたりの演算効率が高いため、データセンターの電力コストが下がりサーバー利用料も安くなります。"
+              role: "Systems Engineering",
+              q: "クラウド環境において x86_64 インスタンスから ARM64 (Graviton 等) インスタンスへ移行するとコストパフォーマンスが 20〜40% 向上するアーキテクチャ上の理由は？",
+              a: "x86_64 は1命令が1〜15バイトの可変長命令セット（CISC）であり、命令境界を特定して内部マイクロオペレーションへ変換するフロントエンドのハードウェアデコーダが巨大で電力を消費する。一方、ARM64 (AArch64) は全命令が 32-bit（4バイト）固定長の RISC アーキテクチャであり、命令デコード回路を単純化・並列化しやすく、ワットあたりの演算性能（Performance per Watt）が高いため。"
             }
           ],
           vocab: [
-            { term: "MOSFET", meaning: "ゲート電圧の有無で電流のON(1)/OFF(0)をナノ秒で切り替える現代CPUの半導体スイッチ。" },
-            { term: "ALU (算術論理演算装置)", meaning: "CPU内部で足し算・引き算・ビット論理演算を実際に実行する演算回路。" },
-            { term: "ISA (命令セットアーキテクチャ)", meaning: "x86_64やARM64など、ソフトウェア（機械語）とCPUハードウェアの間の契約仕様。" },
-            { term: "AST (抽象構文木)", meaning: "コンパイラやLinterがプログラムの構造を木構造として表現したデータ。" }
+            { term: "AST (Abstract Syntax Tree)", meaning: "字句解析（Lexing）と構文解析（Parsing）を経て生成される、プログラムの階層構造を表現した木構造データ。" },
+            { term: "SSA (Static Single Assignment)", meaning: "LLVM 等のコンパイラ中間表現（IR）で用いられる形式。各変数が一度だけ代入されるよう変換することで、死コード削除や定数畳み込み等の最適化を容易にする。" },
+            { term: "ISA (Instruction Set Architecture)", meaning: "ソフトウェア（機械語バイナリ）とハードウェア（CPU実装）の境界を定義する仕様（例: x86_64, ARM64, RISC-V）。" }
           ]
         },
         {
           id: "ch2-db-edge",
-          badge: "Chapter 2 (バックエンド＆DB設計実践)",
-          title: "大規模DB内部構造（B+Tree vs LSM-Tree）とエッジ・分散キャッシュ設計",
-          subtitle: "なぜRDBは秒間10万件の書き込みで詰まり、ワイドカラムNoSQLは速いのか？Edge CDN × In-Memory Cache × DB の黄金構成",
+          badge: "CHAPTER 02 / STORAGE & SCALE",
+          title: "Storage Engines (B+Tree vs. LSM-Tree) & Edge Caching",
+          subtitle: "ディスクI/Oの物理特性から理解するデータベース選定と、多層キャッシュによるスケーラビリティ設計",
           date: "2026-09-24",
+          diagramType: "db_storage",
           heroImage: "./slides/cs_ch2_production_backend_db_16x9.jpg",
-          heroCaption: "図解：Global Edge CDN (①) ➔ API Gateway & LB (②) ➔ In-Memory Distributed Cache (③) ➔ B+Tree RDB と LSM-Tree NoSQL の使い分け (④)",
-          takeaway: "🎯 SWE/PM視点のポイント：プロダクトが急成長したときに最初にシステムが落ちる原因の90%は「データベース（DB）のI/Oボトルネック」です。「検索・集計・トランザクション重視なら B+Tree（PostgreSQL/MySQL等）」「大量のイベント・チャット履歴の高速書き込みなら LSM-Tree（Cassandra/RocksDB等）」と使い分け、前段にインメモリキャッシュ（Redis）とエッジCDNを置く設計が王道です。",
+          heroCaption: "Fig 2.1 Multi-Tier Caching & Storage Engine Architecture",
+          takeaway: "Webアプリケーションの性能劣化や障害の8割以上は、データベース層におけるディスク I/O の飽和に起因します。データのアクセスパターン（点検索・範囲検索・大量追記）に応じて B+Tree と LSM-Tree を使い分け、前段にインメモリキャッシュとエッジネットワークを配置する設計がスケーラビリティの基本です。",
           sections: [
             {
-              heading: "1. データベースの2大ストレージエンジン：B+Tree vs LSM-Tree",
+              heading: "1. ストレージエンジンの内部構造：B+Tree vs. LSM-Tree",
               paragraphs: [
-                "SQLかNoSQLかという違いの裏には、ディスク（SSD）上にデータをどう並べて読み書きするかという「ストレージエンジン」の決定的な違いがあります。"
+                "リレーショナルデータベース（PostgreSQL, MySQL InnoDB 等）と、高書き込みスループット志向の分散データベース（Cassandra, RocksDB, ScyllaDB 等）の根本的な違いは、内部のストレージエンジンが「ランダム I/O」と「シーケンシャル I/O」のどちらに最適化されているかにあります。"
               ],
               table: {
-                headers: ["比較項目", "B+Tree エンジン (PostgreSQL / MySQL 等のRDB)", "LSM-Tree エンジン (Cassandra / RocksDB 等のNoSQL)"],
+                headers: ["設計特性", "B+Tree Engine (PostgreSQL / MySQL InnoDB)", "LSM-Tree Engine (RocksDB / Cassandra)"],
                 rows: [
-                  ["直感的なたとえ", "綺麗に索引が整理された「百科事典」", "ひたすら末尾に高速追記していく「時系列ノート」"],
-                  ["書き込みの仕組み", "該当するディスクページ(8KB/16KB)を探して直接書き換える (Random I/O)", "まずメモリ(MemTable)と追記ログ(WAL)に順番に書くだけ (Sequential I/O)"],
-                  ["読み取り性能 (Read)", "◎ 非常に高速。主キー検索も範囲検索 (BETWEEN) も O(log N) で即完了", "△ 複数のSSTableを探す必要があるため、Bloom Filterで高速化する"],
-                  ["書き込み性能 (Write)", "△ 大量書き込み時にランダムI/Oとページ分割が発生し詰まりやすい", "◎ 圧倒的に高速。ランダムI/Oを排除するため秒間数十万件の書込に耐える"],
-                  ["向いている機能", "ユーザー口座・決済・在庫管理・複雑なJOINや条件検索が必要な基幹データ", "チャットメッセージ履歴・IoTセンサー・行動ログ・大規模通知ストリーム"]
+                  ["基本データ構造", "固定長ページ（8KB〜16KB）単位の平衡木。リーフノードが双方向リストで連結", "メモリ上の平衡木（MemTable）＋ ディスク上の不変ソート済ファイル（SSTable）"],
+                  ["書き込みパス (Write)", "対象ページを探索しその場で上書き（In-place Update）。ランダムI/Oとページ分割が発生", "WALとMemTableへの順次追記（Append-only）のみ。ランダムI/Oを排除し極めて高速"],
+                  ["読み取りパス (Read)", "ルートからリーフまで深さ3〜4段のポインタ追跡のみで完結。範囲検索に最強", "MemTableと複数レベルのSSTableを探索（Bloom Filterにより不在キーのI/Oをスキップ）"],
+                  ["裏側のメンテナンス", "VACUUM（デッドタプルの回収）や断片化解消", "Compaction（複数のSSTableをバックグラウンドでマージ・重複削除する処理）"],
+                  ["適したデータドメイン", "口座残高、注文・在庫管理、複数テーブル結合や柔軟な検索条件を伴う基幹データ", "チャット履歴、監査ログ、時系列メトリクス、秒間数万〜数十万件のイベント書き込み"]
                 ]
               }
             }
           ],
           qa: [
             {
-              role: "バックエンドシステム設計（System Design）面接",
-              q: "特定のキャッシュキー（Redis）の期限（TTL）が切れた瞬間、1万件のリクエストが同時にDBへ殺到してDBが落ちる現象を何と呼び、どう防ぎますか？",
-              a: "「Thundering Herd（または Cache Stampede）」と呼びます。(1) キャッシュ再計算時にMutexロックを取得した1リクエストだけがDBを読みに行く、(2) TTLにランダムな揺らぎ（Jitter）を加えて同時期限切れを防ぐ、(3) 期限が切れる前にバックグラウンドで非同期更新する（Stale-While-Revalidate）ことで防ぎます。"
+              role: "Distributed Systems",
+              q: "高トラフィック環境で特定のホットキーのキャッシュ TTL が切れた瞬間、数千リクエストが同時に DB へ到達して DB がダウンする現象（Cache Stampede）をどう防ぐか？",
+              a: "(1) Singleflight / Mutex ロック（同一キーの再計算は1ワーカーのみが実行し、他リクエストは完了を待機して結果を共有する）、(2) Stale-While-Revalidate（論理TTL経過後も古いキャッシュを即座に返しつつ、非同期でバックグラウンド更新する）、(3) TTL Jitter（有効期限に乱数幅を持たせ同時失効を分散させる）の3手法を組み合わせる。"
             }
           ],
           vocab: [
-            { term: "B+Tree", meaning: "RDBの標準インデックス構造。最下層のリーフノードに実データと双方向ポインタを持ち、範囲検索に極めて強い。" },
-            { term: "LSM-Tree", meaning: "メモリ上のMemTableとディスク上の不変ファイル(SSTable)を組み合わせ、書き込みをすべて高速な順次追記に変換する構造。" },
-            { term: "Anycast Routing", meaning: "世界各地のエッジサーバーに同一IPを割り当て、BGP経路制御でユーザーから最も近い拠点へ自動誘導するネットワーク技術。" },
-            { term: "Bloom Filter", meaning: "少ないメモリで「そのキーが確実に存在しないこと」をO(1)で判定し、無駄なディスク読み込みを回避する確率的データ構造。" }
+            { term: "WAL (Write-Ahead Logging)", meaning: "データページ本体を更新する前に、変更差分を順次追記専用のログファイルへ永続化する機構。クラッシュ時の復旧（Durability）を最小のI/Oで保証する。" },
+            { term: "Bloom Filter", meaning: "複数のハッシュ関数とビット配列を用い、要素が「集合に確実に含まれないこと（偽陰性ゼロ）」を O(1) で判定する省メモリな確率的データ構造。" }
           ]
         },
         {
           id: "ch3-prd-kpi",
-          badge: "Chapter 3 (PM / PdM × SWE 実務)",
-          title: "プロダクト開発の核心：PRD（要求仕様書）・KPIツリーとAPI契約設計",
-          subtitle: "開発チームでPMとSWEが共通言語として使う「仕様・データ・状態遷移」の繋ぎ方",
+          badge: "CHAPTER 03 / PRODUCT & API",
+          title: "Product Requirements (PRD), State Machines & Idempotent APIs",
+          subtitle: "ビジネス要求をエンジニアリング仕様へ厳密に変換するためのドキュメント構造と整合性設計",
           date: "2026-09-24",
-          takeaway: "🎯 SWE/PM視点のポイント：PMとSWEの連携が失敗する最大の原因は「画面の見た目（UI）だけ決めて、裏側の状態遷移（State Machine）やエッジケースを決めていないこと」です。機能を作る前に「North Star Metric」「状態遷移と異常系」「APIのべき等性（Idempotency）」を定義できる人材はどの開発組織でも重宝されます。",
+          diagramType: "prd_state",
+          takeaway: "プロダクト開発における手戻りや本番バグの多くは、「正常系の画面デザイン（Happy Path UI）」のみが共有され、裏側の「状態遷移（State Machine）」「異常系・境界条件」「APIの冪等性」が未定義のまま実装に入ることで発生します。",
           sections: [
             {
-              heading: "1. エンジニアに100%伝わる PRD（要求仕様書）の5必須要素",
-              paragraphs: ["PMを目指す場合も、仕様を主導できるシニアSWEを目指す場合も、以下の5項目を整理するだけで手戻りがゼロになります。"],
+              heading: "1. 仕様の曖昧さを排除する PRD（要求仕様書）の5要素",
+              paragraphs: [
+                "PM（プロダクトマネージャー）および仕様策定を担うテックリードは、機能実装の前に以下の5つの構造を定義します。"
+              ],
               table: {
-                headers: ["PRDセクション", "定義すべき内容", "欠落したときに起きるトラブル"],
+                headers: ["Section", "Specification Content", "Risk if Omitted"],
                 rows: [
-                  ["① Why & Hypothesis", "誰のどんな課題を解決し、どの指標を何%動かすかの仮説", "「作ることが目的化」し、リリース後に誰も使わない機能になる"],
-                  ["② Guardrail Metrics", "メインKPIの裏で悪化させてはいけない指標（応答速度・解約率）", "ポップアップを増やして短期CVRは上がったが、離脱率が急増する"],
-                  ["③ State Machine", "データが取りうる状態（Draft -> Pending -> Active等）と遷移条件", "想定外のステータス変更でデータの不整合バグが起きる"],
-                  ["④ Edge Cases & Idempotency", "通信切断時・ボタン連打時・0件時の挙動とべき等キー設計", "決済や保存ボタンの2回タップでデータが二重登録される"],
-                  ["⑤ Rollout Plan", "Feature Flagによる段階公開（10% -> 50% -> 100%）と切り戻し手順", "障害発生時に全体ロールバックが必要になり影響が拡大する"]
+                  ["01. Problem & Hypothesis", "解決対象のユーザー課題と、変更によって動かす先行指標（Leading Indicator）の仮説", "機能リリース自体が目的化し、事業インパクトの検証が不可能になる"],
+                  ["02. Guardrail Metrics", "主要KPIの改善と引き換えに悪化させてはならない制約指標（P99遅延、エラー率、解約率）", "短期的なコンバージョン獲得施策により、長期リテンションやUXが毀損される"],
+                  ["03. State Machine Diagram", "エンティティが取りうる全ステータス（Draft / Processing / Completed / Failed）と遷移条件", "非同期処理の順序逆転やキャンセル処理でデータの不整合（幽霊状態）が発生する"],
+                  ["04. Idempotency & Edge Cases", "ネットワークタイムアウト時の再送、ボタン連打、0件・上限超過時のAPI振る舞い", "決済や注文APIの重複実行により、二重課金や重複レコード生成が発生する"],
+                  ["05. Rollout & Kill Switch", "Feature Flag による段階的トラフィック解放（1% -> 10% -> 100%）と即時切り戻し条件", "本番障害発生時にコードのロールバック・再デプロイが必要となりMTTRが長期化する"]
                 ]
               }
             }
           ],
           qa: [
             {
-              role: "プロダクト開発 PM・SWE 面接",
-              q: "保存ボタンや決済ボタンをユーザーが素早く2回連打したとき、データが2重に作られるのを防ぐにはどう設計しますか？",
-              a: "フロントエンドでボタン押下直後に disabled にして二重送信を防ぎつつ、バックエンドAPIでもクライアントが発行した Idempotency-Key（べき等キー）またはDBの UNIQUE 制約（UPSERT）を設けることで、ネットワーク再送等を含めて何回リクエストが届いても結果が1件になる『べき等性（Idempotency）』を保証します。"
+              role: "API Design & Reliability",
+              q: "モバイル回線など不安定なネットワーク環境で、クライアントがタイムアウト後に決済リクエストを再送しても二重決済が起きない仕組み（Idempotency）をどう実装するか？",
+              a: "クライアント側で操作単位に一意な UUID（`Idempotency-Key` ヘッダ）を生成して送信させる。サーバー側は RDB の UNIQUE 制約または Redis のアトミック操作（`SET NX`）でこのキーを記録し、同一キーのリクエストが再着した場合はビジネスロジックを再実行せず、初回実行時の保存済みレスポンスステータスをそのまま返却する。"
             }
           ],
           vocab: [
-            { term: "Idempotency (べき等性)", meaning: "同じ操作・APIリクエストを1回実行しても複数回実行しても、システムの状態（DBの結果）が同じになる性質。" },
-            { term: "RICE Scoring", meaning: "施策の優先順位を Reach(到達人数) × Impact(影響度) × Confidence(確信度) ÷ Effort(開発工数) で定量評価する手法。" }
+            { term: "Idempotency (冪等性)", meaning: "ある操作を1回実行した場合と、同じ引数で複数回連続して実行した場合で、システムの状態（副作用）および返却結果が同一になる性質。" },
+            { term: "Guardrail Metric", meaning: "A/Bテストや新機能導入において、主要目標指標（Primary Metric）の裏で毀損されていないかを監視する安全制約指標。" }
           ]
         }
       ],
       phs: [
         {
           id: "phs-ch1-epidemiology",
-          badge: "PHS Chapter 1 (Epidemiology)",
-          title: "Incidence (罹患率) vs. Prevalence (有病率) ── 疫学バスタブモデルとプロダクト指標の共通構造",
-          subtitle: "タイ公衆衛生大学院（PHS Thailand）最重要基礎と、データドリブンPM分析への応用",
+          badge: "PHS CHAPTER 01 / EPIDEMIOLOGY",
+          title: "Incidence vs. Prevalence — 疾病動態のバスタブモデルと定常状態方程式",
+          subtitle: "公衆衛生学（Public Health）の基礎指標と、プロダクト定量分析（Cohort / Retention）の数理的同型性",
           date: "2026-09-24",
+          diagramType: "epi_bathtub",
           heroImage: "./slides/phs_ch1_bathtub_epidemiology_16x9.jpg",
-          heroCaption: "図解：Epidemiological Bathtub Model ── 蛇口からの流入が Incidence（新規発症率）、浴槽の水位が Prevalence（有病率 = I × D）、排水口が回復と死亡",
-          takeaway: "🎯 公衆衛生 × プロダクト開発 (PM/データ分析) の繋がり：疫学のバスタブモデル『Prevalence（有病率）≈ Incidence（新規流入率）× Duration（平均罹病期間）』は、実はプロダクト開発における『アクティブユーザー数 ＝ 新規獲得率（Inflow）× 平均継続期間（LTV）』と数学的に100%同じ構造です！PHSで学ぶ疫学・生物統計は、プロダクト開発の定量分析力そのものになります。",
+          heroCaption: "Fig 3.1 Epidemiological Stock-Flow Model (Prevalence Odds = Incidence Rate × Mean Duration)",
+          takeaway: "疫学における『有病率（Prevalence）と罹患率（Incidence）および平均罹病期間（Duration）の関係式 P/(1-P) = I × D』は、ストック・フロー理論の最も純粋な定式化です。この数理構造は、公衆衛生の医療計画だけでなく、プロダクト開発における『アクティブユーザー数 ＝ 新規流入率 × 平均継続期間（1/Churn）』のコホート分析と完全に一致します。",
           sections: [
             {
-              heading: "1. Incidence と Prevalence の決定的な違い（Flow vs. Stock）",
+              heading: "1. Incidence（フロー：新規発生速度）と Prevalence（ストック：現存割合）の厳密な定義",
               paragraphs: [
-                "疫学（Epidemiology）において、病気の広がりを測る指標は大きく『新しく発生するスピード（Flow）』と『今その病気を持っている人の割合（Stock）』の2つに分かれます。"
+                "集団における疾病の頻度を測る際、「一定期間にどれだけ新しく発生したか（Flow）」と「ある断面時点でどれだけ存在しているか（Stock）」を明確に区別します。"
               ],
               table: {
-                headers: ["比較項目", "Incidence (罹患率 / 新規発生率)", "Prevalence (有病率)"],
+                headers: ["指標区分", "Incidence (罹患率 / 発生率)", "Prevalence (有病率)"],
                 rows: [
-                  ["本質的な概念", "Flow（一定期間内に「新しく発症した」スピード）", "Stock（ある一時点において「病気を持っている」人の割合）"],
-                  ["バスタブモデル", "蛇口から浴槽へ注ぎ込まれる「水流の勢い」", "浴槽の中に現在溜まっている「水位の高さ (P ≈ I × D)」"],
-                  ["公衆衛生での用途", "病因・リスク因子の特定、ワクチンや予防施策の効果判定", "病床数・医療スタッフ・国家医療予算（タイUCS等）の配分計画"],
-                  ["プロダクト開発(PM)での対応", "新規ユーザー登録率（Activation）や新規バグ発生率", "現在のMAU（月間アクティブ数）や未解決技術的負債の総量"]
+                  ["数理的性質", "Flow（時間あたりの新規イベント発生速度・確率）", "Stock（特定時点における状態保有者の構成比）"],
+                  ["分子と分母の定義", "分子：期間内の新規発症者数 / 分母：Population at Risk（または追跡人年 Person-Time）", "分子：調査時点の全有病者数（新規＋既存） / 分母：調査時点の対象全人口"],
+                  ["定常状態の関係式", "I = 新規流入率（原因因子・予防介入の効果を直接反映）", "P ≈ I × D （有病率が十分小さい場合、罹患率 I と平均期間 D の積に近似）"],
+                  ["公衆衛生政策での用途", "病因論（Etiology）の解明、ワクチンや曝露予防介入の有効性評価", "病床数・医療従事者配置・薬剤予算（タイUCS等）の医療資源配分計画"],
+                  ["プロダクト分析との対応", "Acquisition / Activation Rate（新規アクティブ化速度）", "MAU / DAU Ratio（現在アクティブなユーザー層の厚み）"]
                 ]
               }
             },
             {
-              heading: "2. 延命治療のパラドックス（The Paradox of Better Treatment）",
+              heading: "2. 治療成績向上に伴う有病率上昇のパラドックス",
               paragraphs: [
-                "画期的な延命治療薬（例：HIVに対する抗レトロウイルス療法 ART）が普及すると、患者が亡くならずに長生きする（Duration D が伸びる）ため、浴槽の水位である Prevalence（有病率）は【上昇】します。つまり『有病率の上昇』は医療の失敗ではなく、救命・延命に成功した証でもあります。"
+                "慢性疾患や感染症（例：HIV に対する抗レトロウイルス療法 ART の普及）において、致死率を下げる画期的な治療法が導入されると、患者の生命予後が改善し平均罹病期間 $D$（Duration）が延伸します。",
+                "このとき、新規発症率 $I$（Incidence）が減少または横ばいであったとしても、$P \\approx I \\times D$ の関係により、社会全体の有病率 $P$（Prevalence）は上昇します。したがって、治療介入の評価指標として単純な有病率の増減を用いると誤った結論（生態学的誤謬・解釈バイアス）に至るため、必ず Incidence と疾患特異的死亡率（Case Fatality / Mortality）を分離して評価します。"
               ]
             }
           ],
           qa: [
             {
-              role: "PHS Thailand 大学院 / データサイエンス面接",
-              q: "ある地域で新しい予防ワクチンを導入した効果を最も正確に評価するには、Incidence と Prevalence のどちらを見るべきですか？",
-              a: "『Incidence（罹患率）』を見るべきです。なぜなら Prevalence（有病率）にはワクチン導入前にすでに発症して闘病中の患者（Stock）が含まれており、さらに治療技術の向上（Durationの延長）によっても変動してしまうため、純粋な『新規発症を防げたか』は Incidence でしか測れないからです。"
+              role: "Epidemiology & Study Design",
+              q: "長期追跡コホート研究において、参加者の登録時期が異なり途中脱落（Loss to follow-up）が発生する場合、Cumulative Incidence ではなく Incidence Rate (Density) を用いるべき理由は？",
+              a: "Cumulative Incidence（累積罹患率）は全員が同一期間追跡されたことを前提とするため、途中脱落や観察期間の長短があると分母（初期リスク集団）が過大評価されリスクが過小推計される。一方、Incidence Rate（人年法罹患率）は各個人の実際の無病観察期間（Person-Time at Risk）の総和を分母にとるため、異なる追跡期間や中途打ち切り（Censoring）を正確に補正して発症ハザードを推定できる。"
             }
           ],
           vocab: [
-            { term: "Cumulative Incidence (累積罹患率)", meaning: "一定期間内にリスク集団（Population at Risk）の中から新規に発症する確率（Risk）。" },
-            { term: "Incidence Density (人年法罹患率)", meaning: "分母に追跡期間の合計（Person-Time）を置き、観察期間の長短や途中脱落を考慮して発症速度を測る指標。" },
-            { term: "Point Prevalence (時点有病率)", meaning: "特定の一日時点において疾病を有している人の割合。" },
-            { term: "Population at Risk", meaning: "すでに既感染の人や免疫保有者を除いた、「これから新規に発症しうる母集団」。" }
+            { term: "Person-Time (人年 / 観察人時)", meaning: "各対象者がイベント（発症）を起こさずに追跡された期間の総和。10人を5年間追跡した場合も、50人を1年間追跡した場合も 50人年（Person-Years）となる。" },
+            { term: "Population at Risk", meaning: "調査開始時点で対象疾患に罹患しておらず、かつ免疫や臓器摘出等によって発症可能性がゼロになっていない、将来発症しうる集団。" }
           ]
         }
       ]
     };
 
     let currentCategory = "ai_news";
-    let currentChapterId = "news-2026-09-24";
+    let currentChapterId = "ai-textbook-master";
     let searchQuery = "";
+
+    function getCleanSvgDiagram(type) {
+      if (type === "ai_arch" || type === "mcp_ttc") {
+        return `
+          <div class="my-6 p-5 bg-zinc-50/80 border border-zinc-200 rounded-lg">
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] uppercase tracking-wider text-zinc-500">System Architecture Blueprint</span>
+              <span class="font-mono text-[11px] text-zinc-400">4-Layer Production Pipeline</span>
+            </div>
+            <svg viewBox="0 0 820 190" class="w-full h-auto">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#71717A" />
+                </marker>
+              </defs>
+              <!-- Layer 1 -->
+              <rect x="10" y="25" width="175" height="140" rx="6" fill="#FFFFFF" stroke="#D4D4D8" stroke-width="1.2"/>
+              <text x="24" y="48" font-family="JetBrains Mono, monospace" font-size="10" fill="#71717A" font-weight="600">01 / INGRESS &amp; CACHE</text>
+              <text x="24" y="72" font-family="Inter, sans-serif" font-size="12" fill="#18181B" font-weight="600">Semantic Cache</text>
+              <text x="24" y="90" font-family="Inter, sans-serif" font-size="10" fill="#52525B">Cosine Sim ≥ 0.95</text>
+              <line x1="24" y1="104" x2="170" y2="104" stroke="#E4E4E7" stroke-width="1"/>
+              <text x="24" y="124" font-family="Inter, sans-serif" font-size="12" fill="#18181B" font-weight="600">Model Router</text>
+              <text x="24" y="142" font-family="Inter, sans-serif" font-size="10" fill="#52525B">Fast Classifier -&gt; Tiering</text>
+
+              <line x1="185" y1="95" x2="215" y2="95" stroke="#71717A" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+              <!-- Layer 2 -->
+              <rect x="220" y="25" width="180" height="140" rx="6" fill="#FFFFFF" stroke="#18181B" stroke-width="1.5"/>
+              <text x="234" y="48" font-family="JetBrains Mono, monospace" font-size="10" fill="#18181B" font-weight="600">02 / REASONING CORE</text>
+              <text x="234" y="72" font-family="Inter, sans-serif" font-size="12" fill="#18181B" font-weight="600">Agentic Loop (Sys 2)</text>
+              <text x="234" y="90" font-family="Inter, sans-serif" font-size="10" fill="#52525B">Plan -&gt; Act -&gt; Observe</text>
+              <line x1="234" y1="104" x2="386" y2="104" stroke="#E4E4E7" stroke-width="1"/>
+              <text x="234" y="124" font-family="Inter, sans-serif" font-size="12" fill="#18181B" font-weight="600">KV Cache &amp; Prefill</text>
+              <text x="234" y="142" font-family="Inter, sans-serif" font-size="10" fill="#52525B">Prompt Prefix Reuse</text>
+
+              <line x1="400" y1="95" x2="430" y2="95" stroke="#71717A" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+              <!-- Layer 3 -->
+              <rect x="435" y="25" width="180" height="140" rx="6" fill="#FFFFFF" stroke="#D4D4D8" stroke-width="1.2"/>
+              <text x="449" y="48" font-family="JetBrains Mono, monospace" font-size="10" fill="#71717A" font-weight="600">03 / CONTEXT &amp; TOOLS</text>
+              <text x="449" y="72" font-family="Inter, sans-serif" font-size="12" fill="#18181B" font-weight="600">Hybrid RAG</text>
+              <text x="449" y="90" font-family="Inter, sans-serif" font-size="10" fill="#52525B">Dense Vector + BM25</text>
+              <line x1="449" y1="104" x2="601" y2="104" stroke="#E4E4E7" stroke-width="1"/>
+              <text x="449" y="124" font-family="Inter, sans-serif" font-size="12" fill="#18181B" font-weight="600">MCP Server Bus</text>
+              <text x="449" y="142" font-family="Inter, sans-serif" font-size="10" fill="#52525B">JSON-RPC 2.0 (DB/Git)</text>
+
+              <line x1="615" y1="95" x2="645" y2="95" stroke="#71717A" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+              <!-- Layer 4 -->
+              <rect x="650" y="25" width="160" height="140" rx="6" fill="#FFFFFF" stroke="#D4D4D8" stroke-width="1.2"/>
+              <text x="664" y="48" font-family="JetBrains Mono, monospace" font-size="10" fill="#71717A" font-weight="600">04 / EGRESS &amp; EVAL</text>
+              <text x="664" y="72" font-family="Inter, sans-serif" font-size="12" fill="#18181B" font-weight="600">Structured Output</text>
+              <text x="664" y="90" font-family="Inter, sans-serif" font-size="10" fill="#52525B">Strict JSON Schema</text>
+              <line x1="664" y1="104" x2="796" y2="104" stroke="#E4E4E7" stroke-width="1"/>
+              <text x="664" y="124" font-family="Inter, sans-serif" font-size="12" fill="#18181B" font-weight="600">SSE Streaming</text>
+              <text x="664" y="142" font-family="Inter, sans-serif" font-size="10" fill="#52525B">TTFT &lt; 300ms</text>
+            </svg>
+          </div>
+        `;
+      }
+      if (type === "db_storage") {
+        return `
+          <div class="my-6 p-5 bg-zinc-50/80 border border-zinc-200 rounded-lg">
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] uppercase tracking-wider text-zinc-500">Storage Engine I/O Path Comparison</span>
+              <span class="font-mono text-[11px] text-zinc-400">B+Tree vs. LSM-Tree</span>
+            </div>
+            <svg viewBox="0 0 820 165" class="w-full h-auto">
+              <rect x="10" y="15" width="385" height="135" rx="6" fill="#FFFFFF" stroke="#D4D4D8" stroke-width="1.2"/>
+              <text x="26" y="40" font-family="JetBrains Mono, monospace" font-size="10" fill="#18181B" font-weight="600">B+TREE ENGINE (READ-OPTIMIZED / ACID RDB)</text>
+              <text x="26" y="66" font-family="Inter, sans-serif" font-size="11" fill="#3F3F46">Root Node -&gt; Internal Pages -&gt; Doubly-Linked Leaf Pages (8KB/16KB)</text>
+              <text x="26" y="92" font-family="JetBrains Mono, monospace" font-size="10" fill="#52525B">• Read: O(log_B N) — 3~4 page lookups (Fast Range Scan)</text>
+              <text x="26" y="112" font-family="JetBrains Mono, monospace" font-size="10" fill="#52525B">• Write: In-place page overwrite (Random Disk I/O + WAL)</text>
+
+              <rect x="425" y="15" width="385" height="135" rx="6" fill="#FFFFFF" stroke="#18181B" stroke-width="1.5"/>
+              <text x="441" y="40" font-family="JetBrains Mono, monospace" font-size="10" fill="#18181B" font-weight="600">LSM-TREE ENGINE (WRITE-OPTIMIZED / WIDE-COLUMN)</text>
+              <text x="441" y="66" font-family="Inter, sans-serif" font-size="11" fill="#3F3F46">Append WAL -&gt; RAM MemTable (SkipList) -&gt; Immutable SSTables</text>
+              <text x="441" y="92" font-family="JetBrains Mono, monospace" font-size="10" fill="#52525B">• Write: 100% Sequential Append I/O (Ultra-high throughput)</text>
+              <text x="441" y="112" font-family="JetBrains Mono, monospace" font-size="10" fill="#52525B">• Read: MemTable + Bloom Filter + Background Compaction</text>
+            </svg>
+          </div>
+        `;
+      }
+      if (type === "epi_bathtub") {
+        return `
+          <div class="my-6 p-5 bg-zinc-50/80 border border-zinc-200 rounded-lg">
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] uppercase tracking-wider text-zinc-500">Epidemiological Compartmental Flow</span>
+              <span class="font-mono text-[11px] text-zinc-400">P / (1 - P) = I × D</span>
+            </div>
+            <svg viewBox="0 0 820 140" class="w-full h-auto">
+              <rect x="20" y="30" width="210" height="80" rx="6" fill="#FFFFFF" stroke="#D4D4D8" stroke-width="1.2"/>
+              <text x="36" y="58" font-family="JetBrains Mono, monospace" font-size="10" fill="#71717A">INFLOW (RATE)</text>
+              <text x="36" y="80" font-family="Inter, sans-serif" font-size="13" fill="#18181B" font-weight="600">Incidence Rate (I)</text>
+              <text x="36" y="96" font-family="Inter, sans-serif" font-size="10" fill="#52525B">New cases / Person-Time</text>
+
+              <line x1="230" y1="70" x2="295" y2="70" stroke="#18181B" stroke-width="1.5"/>
+
+              <rect x="295" y="20" width="230" height="100" rx="6" fill="#18181B" stroke="#18181B" stroke-width="1.5"/>
+              <text x="315" y="48" font-family="JetBrains Mono, monospace" font-size="10" fill="#A1A1AA">STOCK (POOL AT TIME t)</text>
+              <text x="315" y="74" font-family="Inter, sans-serif" font-size="14" fill="#FFFFFF" font-weight="600">Prevalence Pool (P)</text>
+              <text x="315" y="96" font-family="JetBrains Mono, monospace" font-size="11" fill="#E4E4E7">Steady State: P ≈ I × D</text>
+
+              <line x1="525" y1="70" x2="590" y2="70" stroke="#18181B" stroke-width="1.5"/>
+
+              <rect x="590" y="30" width="210" height="80" rx="6" fill="#FFFFFF" stroke="#D4D4D8" stroke-width="1.2"/>
+              <text x="606" y="58" font-family="JetBrains Mono, monospace" font-size="10" fill="#71717A">OUTFLOW (EXIT)</text>
+              <text x="606" y="80" font-family="Inter, sans-serif" font-size="13" fill="#18181B" font-weight="600">Recovery + Mortality</text>
+              <text x="606" y="96" font-family="Inter, sans-serif" font-size="10" fill="#52525B">Determines Mean Duration (D)</text>
+            </svg>
+          </div>
+        `;
+      }
+      return "";
+    }
+
+    function updateTabStyles() {
+      const cats = ["ai_news", "swe_pm", "phs"];
+      cats.forEach((k) => {
+        const btn = document.getElementById("tab-" + k);
+        const mobBtn = document.getElementById("mob-tab-" + k);
+        if (k === currentCategory) {
+          if (btn) btn.className = "px-3 py-1 rounded text-xs font-medium transition-all bg-white text-zinc-900 shadow-xs border border-zinc-200/80";
+          if (mobBtn) mobBtn.className = "px-2.5 py-1 rounded text-xs font-medium whitespace-nowrap bg-zinc-900 text-white";
+        } else {
+          if (btn) btn.className = "px-3 py-1 rounded text-xs font-medium transition-all text-zinc-600 hover:text-zinc-900";
+          if (mobBtn) mobBtn.className = "px-2.5 py-1 rounded text-xs font-medium whitespace-nowrap text-zinc-600 bg-white border border-zinc-200";
+        }
+      });
+
+      const labelMap = {
+        ai_news: "AI ARCHITECTURE & DIGEST",
+        swe_pm: "CS & PRODUCT ENGINEERING",
+        phs: "EPIDEMIOLOGY & BIOSTATISTICS"
+      };
+      const lbl = document.getElementById("sidebar-category-label");
+      if (lbl) lbl.textContent = labelMap[currentCategory] || "DOCUMENTS";
+    }
 
     function switchCategory(cat) {
       currentCategory = cat;
       currentChapterId = HUB_DATA[cat][0].id;
-      const styles = {
-        ai_news: "bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-400",
-        swe_pm: "bg-blue-600 text-white shadow-sm ring-2 ring-blue-400",
-        phs: "bg-purple-600 text-white shadow-sm ring-2 ring-purple-400"
-      };
-      ["ai_news", "swe_pm", "phs"].forEach((k) => {
-        const btn = document.getElementById("tab-" + k);
-        if (k === cat) {
-          btn.className = "px-4 py-2.5 rounded-lg text-sm font-bold transition-all " + styles[k];
-        } else {
-          btn.className = "px-4 py-2.5 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700";
-        }
-      });
+      updateTabStyles();
       renderSidebar();
       renderDoc();
     }
@@ -454,6 +643,7 @@
       currentChapterId = id;
       renderSidebar();
       renderDoc();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function handleSearch(val) {
@@ -464,12 +654,11 @@
     function renderSidebar() {
       const list = HUB_DATA[currentCategory].filter((ch) => {
         if (!searchQuery) return true;
-        const blob = JSON.stringify(ch).toLowerCase();
-        return blob.includes(searchQuery);
+        return JSON.stringify(ch).toLowerCase().includes(searchQuery);
       });
       const nav = document.getElementById("chapter-list");
       if (list.length === 0) {
-        nav.innerHTML = `<div class="text-xs text-slate-400 py-4 text-center">該当するトピックがありません</div>`;
+        nav.innerHTML = `<div class="text-xs text-zinc-400 py-4 px-2">No matching documents found.</div>`;
         return;
       }
       if (!list.some((c) => c.id === currentChapterId)) {
@@ -478,13 +667,15 @@
       nav.innerHTML = list.map((ch) => {
         const active = ch.id === currentChapterId;
         return `
-          <button onclick="selectChapter('${ch.id}')" class="w-full text-left px-3.5 py-3 rounded-lg transition-all border ${
+          <button onclick="selectChapter('${ch.id}')" class="w-full text-left px-2.5 py-2 rounded-md transition-colors group block ${
             active
-              ? "bg-blue-50 border-blue-500 text-blue-900 font-bold shadow-xs"
-              : "bg-white border-transparent hover:bg-slate-100 text-slate-700"
+              ? "bg-zinc-900 text-white"
+              : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
           }">
-            <div class="text-[11px] font-semibold text-blue-600 mb-0.5">${ch.badge}</div>
-            <div class="text-sm leading-snug">${ch.title}</div>
+            <div class="font-mono text-[10px] tracking-wider uppercase ${
+              active ? "text-zinc-400" : "text-zinc-400 group-hover:text-zinc-500"
+            }">${ch.badge}</div>
+            <div class="text-xs font-medium leading-snug mt-0.5 line-clamp-2">${ch.title}</div>
           </button>
         `;
       }).join("");
@@ -494,105 +685,143 @@
       const list = HUB_DATA[currentCategory];
       const doc = list.find((c) => c.id === currentChapterId) || list[0];
       const container = document.getElementById("doc-container");
+      const tocContainer = document.getElementById("toc-list");
 
-      const heroHtml = doc.heroImage ? `
-        <figure class="rounded-xl border border-slate-200 bg-slate-50 p-3 shadow-xs">
-          <img src="${doc.heroImage}" alt="${doc.title}" class="w-full h-auto rounded-lg object-contain" />
-          <figcaption class="mt-2.5 text-xs sm:text-sm text-center text-slate-600 font-medium">🖼️ ${doc.heroCaption || ""}</figcaption>
-        </figure>
+      // Render right TOC
+      const tocItems = (doc.sections || []).map((s, idx) => {
+        return `<a href="#sec-${idx}" class="block text-zinc-500 hover:text-zinc-900 leading-snug py-0.5 transition-colors">${s.heading}</a>`;
+      });
+      if (doc.qa && doc.qa.length > 0) {
+        tocItems.push(`<a href="#sec-qa" class="block text-zinc-500 hover:text-zinc-900 leading-snug py-0.5 transition-colors">Review &amp; Case Questions</a>`);
+      }
+      if (doc.vocab && doc.vocab.length > 0) {
+        tocItems.push(`<a href="#sec-vocab" class="block text-zinc-500 hover:text-zinc-900 leading-snug py-0.5 transition-colors">Terminology</a>`);
+      }
+      if (tocContainer) {
+        tocContainer.innerHTML = tocItems.join("");
+      }
+
+      const cleanDiagramHtml = getCleanSvgDiagram(doc.diagramType);
+
+      // Optional collapsible high-res slide figure (hidden by default so it never looks tacky/busy)
+      const visualSlideHtml = doc.heroImage ? `
+        <details class="my-4 group border border-zinc-200 rounded-md bg-white overflow-hidden">
+          <summary class="px-3.5 py-2 text-xs font-mono text-zinc-500 hover:text-zinc-900 cursor-pointer flex items-center justify-between bg-zinc-50/60">
+            <span>Figure Attachment: ${doc.heroCaption || "Architecture Slide"}</span>
+            <span class="text-[10px] text-zinc-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="p-3 border-t border-zinc-200 bg-zinc-50">
+            <img src="${doc.heroImage}" alt="${doc.title}" class="w-full h-auto rounded border border-zinc-200" />
+          </div>
+        </details>
       ` : "";
 
-      const sectionsHtml = doc.sections.map((s) => {
-        const pHtml = (s.paragraphs || []).map((p) => `<p class="text-sm sm:text-base text-slate-700 leading-relaxed">${p}</p>`).join("");
+      const sectionsHtml = (doc.sections || []).map((s, idx) => {
+        const pHtml = (s.paragraphs || []).map((p) => `<p class="text-[15px] text-zinc-700 leading-[1.85] tracking-[-0.005em]">${p}</p>`).join("");
         const bulletsHtml = s.bullets ? `
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
             ${s.bullets.map((b) => `
-              <div class="bg-slate-50 rounded-xl border border-slate-200 p-4">
-                <div class="font-bold text-sm text-blue-900 mb-1.5">${b.label}</div>
-                <div class="text-xs sm:text-sm text-slate-700 leading-relaxed">${b.desc}</div>
+              <div class="bg-white rounded-md border border-zinc-200 p-4">
+                <div class="font-mono text-xs font-semibold text-zinc-900 mb-1.5">${b.label}</div>
+                <div class="text-xs text-zinc-600 leading-relaxed">${b.desc}</div>
               </div>
             `).join("")}
           </div>
         ` : "";
         const tblHtml = s.table ? `
-          <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-2xs mt-3">
-            <table class="min-w-full divide-y divide-slate-200 text-left text-xs sm:text-sm">
-              <thead class="bg-slate-100 text-slate-800 font-bold">
-                <tr>${s.table.headers.map((h) => `<th class="px-4 py-3">${h}</th>`).join("")}</tr>
+          <div class="overflow-x-auto border border-zinc-200 rounded-md my-4">
+            <table class="min-w-full divide-y divide-zinc-200 text-left text-xs">
+              <thead class="bg-zinc-50 text-zinc-700 font-medium">
+                <tr>${s.table.headers.map((h) => `<th class="px-4 py-2.5 font-semibold tracking-tight">${h}</th>`).join("")}</tr>
               </thead>
-              <tbody class="divide-y divide-slate-200 bg-white">
+              <tbody class="divide-y divide-zinc-200 bg-white">
                 ${s.table.rows.map((r) => `
-                  <tr class="hover:bg-slate-50">
-                    ${r.map((c, idx) => `<td class="px-4 py-3 leading-relaxed ${idx === 0 ? "font-bold text-slate-900 whitespace-nowrap" : "text-slate-700"}">${c}</td>`).join("")}
+                  <tr class="hover:bg-zinc-50/70 transition-colors">
+                    ${r.map((c, cIdx) => `<td class="px-4 py-3 leading-relaxed align-top ${cIdx === 0 ? "font-medium text-zinc-900 whitespace-nowrap bg-zinc-50/30" : "text-zinc-600"}">${c}</td>`).join("")}
                   </tr>
                 `).join("")}
               </tbody>
             </table>
           </div>
         ` : "";
-        return `<section class="space-y-4"><h3 class="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-200 pb-2">${s.heading}</h3>${pHtml}${bulletsHtml}${tblHtml}</section>`;
+        return `
+          <section id="sec-${idx}" class="space-y-4 pt-6 border-t border-zinc-200/80 first:border-t-0 first:pt-0">
+            <h2 class="text-lg font-semibold text-zinc-900 tracking-tight">${s.heading}</h2>
+            <div class="space-y-3">${pHtml}</div>
+            ${bulletsHtml}
+            ${tblHtml}
+          </section>
+        `;
       }).join("");
 
       const qaHtml = (doc.qa || []).map((item) => `
-        <details class="group bg-white rounded-xl border border-blue-200 overflow-hidden shadow-2xs">
-          <summary class="cursor-pointer p-4 flex items-start justify-between gap-3 hover:bg-blue-50/50 transition-colors">
-            <div>
-              <div class="text-xs font-bold text-blue-700 mb-1">[${item.role}]</div>
-              <div class="font-bold text-sm sm:text-base text-slate-900">${item.q}</div>
+        <details class="group bg-white rounded-md border border-zinc-200 overflow-hidden">
+          <summary class="cursor-pointer px-4 py-3.5 flex items-start justify-between gap-4 hover:bg-zinc-50 transition-colors">
+            <div class="space-y-1">
+              <div class="font-mono text-[10px] uppercase tracking-wider text-zinc-400">${item.role}</div>
+              <div class="font-medium text-sm text-zinc-900 leading-snug">${item.q}</div>
             </div>
-            <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold shrink-0 group-open:bg-emerald-100 group-open:text-emerald-800">
-              解答を見る ▼
+            <span class="font-mono text-[11px] text-zinc-500 shrink-0 pt-0.5 group-open:text-zinc-900">
+              Answer +
             </span>
           </summary>
-          <div class="p-4 pt-0 border-t border-slate-100 bg-emerald-50/30 text-xs sm:text-sm text-slate-800 leading-relaxed">
-            <div class="mt-3"><span class="font-bold text-emerald-700">💡 模範解答・解説：</span> ${item.a}</div>
+          <div class="px-4 py-3.5 border-t border-zinc-100 bg-zinc-50/60 text-xs sm:text-sm text-zinc-700 leading-relaxed">
+            ${item.a}
           </div>
         </details>
       `).join("");
 
       const vocabHtml = (doc.vocab || []).map((v) => `
-        <div class="rounded-lg border border-slate-200 p-3.5 bg-white hover:border-blue-300 transition-colors">
-          <div class="font-bold text-sm text-slate-900">${v.term}</div>
-          <div class="text-xs text-slate-600 mt-1 leading-relaxed">${v.meaning}</div>
+        <div class="border-b border-zinc-200/80 pb-3 last:border-b-0">
+          <dt class="font-mono text-xs font-semibold text-zinc-900">${v.term}</dt>
+          <dd class="text-xs text-zinc-600 mt-1 leading-relaxed">${v.meaning}</dd>
         </div>
       `).join("");
 
       container.innerHTML = `
-        <article class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-blue-950 text-white p-6 sm:p-8">
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-              <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 border border-blue-400/40 text-blue-200">${doc.badge}</span>
-              <span class="text-xs text-slate-300 font-mono">📅 ${doc.date}</span>
+        <article class="bg-white border border-zinc-200/90 rounded-lg p-6 sm:p-10 shadow-[0_1px_2px_rgba(0,0,0,0.03)] space-y-8">
+          <!-- Clean Editorial Document Header -->
+          <header class="border-b border-zinc-200 pb-6 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-mono text-[11px] font-medium uppercase tracking-wider text-zinc-500">${doc.badge}</span>
+              <span class="font-mono text-[11px] text-zinc-400">${doc.date}</span>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold leading-tight">${doc.title}</h2>
-            <p class="mt-2.5 text-sm sm:text-base text-blue-100 leading-relaxed">${doc.subtitle}</p>
+            <h1 class="text-2xl sm:text-[28px] font-bold text-zinc-950 tracking-tight leading-[1.3]">${doc.title}</h1>
+            <p class="text-sm sm:text-base text-zinc-500 leading-relaxed">${doc.subtitle}</p>
+          </header>
+
+          <!-- Executive Summary Callout (Minimal Monochrome Left Border) -->
+          <div class="bg-zinc-50 border-l-2 border-zinc-900 px-5 py-4">
+            <div class="font-mono text-[10px] font-semibold uppercase tracking-wider text-zinc-500 mb-1">Abstract &amp; Engineering Implication</div>
+            <p class="text-xs sm:text-sm text-zinc-800 leading-relaxed">${doc.takeaway}</p>
           </div>
 
-          <div class="p-6 sm:p-8 space-y-8">
-            <div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-5">
-              <div class="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1">💡 要点サマリー ＆ プロダクト開発 (SWE / PM) への示唆</div>
-              <p class="text-sm sm:text-base text-slate-800 leading-relaxed font-medium">${doc.takeaway}</p>
-            </div>
+          ${cleanDiagramHtml}
+          ${visualSlideHtml}
 
-            ${heroHtml}
+          <div class="space-y-8">
             ${sectionsHtml}
-
-            <section class="bg-blue-50/70 rounded-xl border border-blue-200 p-5 space-y-3">
-              <h3 class="text-base sm:text-lg font-bold text-blue-950 flex items-center gap-2">
-                <span>🧠</span> インタラクティブ理解度チェック ＆ 面接Q&A（クリックで解答開閉）
-              </h3>
-              <div class="space-y-2.5">${qaHtml}</div>
-            </section>
-
-            <section class="space-y-3">
-              <h3 class="text-base sm:text-lg font-bold text-slate-900 border-b border-slate-200 pb-2">📖 必須エンジニアリング＆ドメイン用語集</h3>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${vocabHtml}</div>
-            </section>
           </div>
+
+          <!-- Technical Review & Case Q&A -->
+          <section id="sec-qa" class="pt-6 border-t border-zinc-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <h2 class="text-base font-semibold text-zinc-900 tracking-tight">Architecture &amp; Design Review Questions</h2>
+              <span class="font-mono text-[11px] text-zinc-400">Click to reveal</span>
+            </div>
+            <div class="space-y-2.5">${qaHtml}</div>
+          </section>
+
+          <!-- Terminology Glossary -->
+          <section id="sec-vocab" class="pt-6 border-t border-zinc-200 space-y-4">
+            <h2 class="text-base font-semibold text-zinc-900 tracking-tight">Technical Glossary</h2>
+            <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">${vocabHtml}</dl>
+          </section>
         </article>
       `;
     }
 
+    updateTabStyles();
     renderSidebar();
     renderDoc();
   </script>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>📘 Daily Knowledge Hub | SWE/PM Engineering・AI News・PHS Thailand</title>
+  <title>📘 Daily Knowledge Hub | プロダクト開発 (SWE/PM)・日刊AI/ITトレンド・PHS Thailand</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", sans-serif; }
@@ -15,18 +15,18 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>
         <div class="flex items-center gap-2">
-          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-600 text-white rounded-full">STANDALONE STUDY PORTAL</span>
+          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-600 text-white rounded-full">DAILY KNOWLEDGE HUB</span>
           <span class="text-xs text-slate-400">Owner: jundeiiya@gmail.com | Auto-Updated Daily at 06:00 JST by Claude & Gemini</span>
         </div>
         <h1 class="text-xl sm:text-2xl font-bold tracking-tight mt-1">
-          📘 Daily Knowledge Hub（SWE/PM 開発・日刊AI/ITニュース・PHS Thailand）
+          📘 プロダクト開発 (SWE / PM)・日刊AI/ITニュース・PHS Thailand 体系ノート
         </h1>
       </div>
 
       <!-- 3 Main Notebook Tabs -->
       <div class="flex flex-wrap gap-2" id="main-tabs">
         <button onclick="switchCategory('swe_pm')" id="tab-swe_pm" class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-sm ring-2 ring-blue-400">
-          💻 ① CS & SWE / PM 開発ノート
+          💻 ① CS & プロダクト開発 (SWE/PM)
         </button>
         <button onclick="switchCategory('ai_news')" id="tab-ai_news" class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
           📰 ② 日刊 AI & IT ニュースノート
@@ -54,7 +54,7 @@
           <span>⚡</span> 毎朝 06:00 JST 自動蓄積
         </div>
         <p class="text-slate-300 leading-relaxed">
-          特定のアプリとは完全に分離された独立ナレッジベースです。毎朝 Claude Sonnet 4.6 と Gemini 2.5 Flash が新しい章と最新AI/ITニュースをこのノートに追記します。
+          プロダクト開発（SWE / PM・PdM）に必要なCS基礎・バックエンド設計・仕様策定スキルと、日々のAI/ITトレンド、PHS公衆衛生学をタブ別に体系化する専用ポータルです。
         </p>
       </div>
     </aside>
@@ -69,10 +69,10 @@
         {
           id: "roadmap",
           badge: "🗺️ Master Roadmap",
-          title: "日本での SWE / PM (PdM) キャリアを実現する体系的カリキュラム",
-          subtitle: "CS基礎から Amazon / Cloudflare 級のシステム設計、そしてプロダクト開発（PRD・KPI設計・技術的意思決定）までを繋ぐ全体設計図",
+          title: "プロダクト開発（SWE / PM・PdM）を目指すための体系的カリキュラム",
+          subtitle: "CS基礎から大規模バックエンド・DB設計、そしてプロダクトマネジメント（PRD・KPI設計・技術的意思決定）までを繋ぐ全体設計図",
           date: "Updated: 2026-09-24",
-          takeaway: "日本でプロダクト開発サイド（SWE / PM・PdM）へ進む上で最大の差別化になるのは、「ビジネス上のユーザー課題・KPI」と「裏側のシステム制約（DB構造・API設計・レイテンシ・インフラコスト）」を同じ解像度で語れることです。毎日1章ずつ、以下の4フェーズを体系的に積み上げます。",
+          takeaway: "日本でプロダクト開発サイド（SWE / PM・PdM）へ進む上で最大の武器になるのは、「ビジネス上のユーザー課題・KPI」と「裏側のシステム制約（DB構造・API設計・レイテンシ・インフラコスト）」を同じ解像度で語れることです。毎日1章ずつ、以下の4フェーズを体系的に積み上げます。",
           sections: [
             {
               heading: "1. プロダクト開発 (SWE × PM) 4大レイヤーと学習ロードマップ",
@@ -83,8 +83,8 @@
                 headers: ["フェーズ", "領域", "学ぶコアテーマ", "SWE / PM 実務での活かし方"],
                 rows: [
                   ["Phase 1", "CS & OS Core", "Ch.1 半導体・論理ゲート・コンパイラ / Ch.2 CPUキャッシュ・仮想メモリ・非同期ランタイム", "言語選定（Rust/Go/TS/Python）、メモリリークや高負荷時のボトルネック特定"],
-                  ["Phase 2", "Database & Storage", "Ch.3 B+Tree vs LSM-Tree / Ch.4 ACID・分離レベル・複合インデックス・水平シャーディング", "機能の特性（検索重視か大量書込か）に応じたRDB(PostgreSQL) vs NoSQL(DynamoDB)の選定"],
-                  ["Phase 3", "Cloud, Edge & Scale", "Ch.5 Redis分散キャッシュ / Ch.6 Cloudflare Anycast・Edge Workers・CDN・レート制限", "グローバル低遅延UXの実現、急激なトラフィック増（スパイク）でも落ちない高可用性設計"],
+                  ["Phase 2", "Database & Storage", "Ch.3 B+Tree vs LSM-Tree / Ch.4 ACID・分離レベル・複合インデックス・水平シャーディング", "機能の特性（検索重視か大量書込か）に応じたリレーショナルDB vs NoSQLの選定"],
+                  ["Phase 3", "Network, Edge & Scale", "Ch.5 分散インメモリキャッシュ / Ch.6 エッジネットワーク(Anycast CDN)・レート制限・認証基盤", "低遅延UXの実現、急激なトラフィック増（スパイク）でも落ちない高可用性アーキテクチャ設計"],
                   ["Phase 4", "Product Management", "Ch.7 PRD（要求仕様書）とAPI契約 / Ch.8 KPIツリー(NSM)・A/Bテスト統計・RICE優先度評価", "エンジニアと対等に仕様を詰められる技術的PM力、最小工数で最大価値を生むMVP設計"]
                 ]
               }
@@ -94,7 +94,7 @@
             {
               role: "SWE / PM 共通面接",
               q: "新機能を開発するとき、どうやって技術スタックやDB設計のトレードオフを決めますか？",
-              a: "まずユーザー体験上の許容レイテンシ（例：画面遷移は200ms以内）とデータの一貫性要件（決済のようにACIDが必須か、タイムラインのように結果整合性で良いか）を定義します。その上でRead/Write比率を見積もり、Read重視ならRDB(B+Tree)＋Redisキャッシュ、Write大量ならLSM-Treeやキューイングを選択します。"
+              a: "まずユーザー体験上の許容レイテンシ（例：画面遷移は200ms以内）とデータの一貫性要件（決済のようにACIDトランザクションが必須か、タイムラインのように結果整合性で良いか）を定義します。その上でRead/Write比率を見積もり、Read重視ならRDB(B+Tree)＋インメモリキャッシュ、Write大量ならLSM-Tree型DBや非同期メッセージキューを選択します。"
             }
           ],
           vocab: [
@@ -110,7 +110,7 @@
           date: "2026-09-24",
           heroImage: "./slides/cs_ch1_compiler_silicon_16x9.jpg",
           heroCaption: "図解：高級言語（Stage 1）からコンパイラ/AST（Stage 2）、機械語ISA（Stage 3）を経てシリコンCPUの論理ゲート（Stage 4）で実行されるまでの全体フロー",
-          takeaway: "🎯 SWE/PM視点のポイント：「なぜPythonよりRustやGoが10倍〜50倍速く、クラウドサーバー代（AWSコスト）を1/5に削減できるのか？」の答えはこのコンパイル過程にあります。プロダクトの初期検証（PoC）は開発速度の速いTS/Pythonで行い、高負荷なコア基盤はネイティブ機械語にコンパイルされる言語へ切り出すのが現代プロダクト開発の定石です。",
+          takeaway: "🎯 SWE/PM視点のポイント：「なぜPythonよりRustやGoが10倍〜50倍速く、サーバーインフラ費用を1/5に削減できるのか？」の答えはこのコンパイル過程にあります。プロダクトの初期検証（PoC）は開発速度の速いTS/Pythonで行い、高負荷なコア基盤はネイティブ機械語にコンパイルされる言語へ切り出すのが現代プロダクト開発の定石です。",
           sections: [
             {
               heading: "1. コア概念：すべては「電圧のON/OFF（0Vと1V）」に帰着する",
@@ -127,17 +127,17 @@
                 rows: [
                   ["変換タイミング", "実行前に全文を一括で機械語（0と1）へ翻訳", "実行しながら1行ずつ解析、頻出箇所をJITで機械語化"],
                   ["実行速度・メモリ効率", "極めて高速・省メモリ（GC停止がないRustは特に高速）", "オーバーヘッドが大きいが、I/O待ち主体なら十分実用的"],
-                  ["クラウドインフラ費用", "同一トラフィックを少ないCPU/RAMで捌けるため安価", "スケール時にコンテナ数・メモリが多く必要になりやすい"],
-                  ["プロダクト開発での適性", "高負荷API基盤・決済・Cloudflare Edge・ビルドツール", "AI/ML連携・迅速なMVP開発・Webアプリケーション全般"]
+                  ["サーバーインフラ費用", "同一トラフィックを少ないCPU/RAMで捌けるため安価", "スケール時にコンテナ数・メモリが多く必要になりやすい"],
+                  ["プロダクト開発での適性", "高負荷API基盤・決済・エッジ処理・高速ビルドツール", "AI/ML連携・迅速なMVP開発・Webアプリケーション全般"]
                 ]
               }
             }
           ],
           qa: [
             {
-              role: "Amazon / メガベンチャー SWE面接",
-              q: "AWSのEC2やRDSで従来のIntel (x86_64) から Graviton (ARM64) に切り替えるとコストが最大40%下がるのはなぜですか？",
-              a: "x86_64は可変長命令を持つCISCアーキテクチャであり、CPU内部の命令デコーダ回路が複雑で電力を多く消費します。一方、ARM64（Apple SiliconやAWS Graviton）は固定長命令のRISCアーキテクチャであり、デコード回路がシンプルで1ワットあたりの演算効率が高いため、データセンターの電力コストが下がりインスタンス料金も安くなります。"
+              role: "プロダクト開発 SWE 面接",
+              q: "クラウドサーバーで従来の x86_64 プロセッサから ARM64 プロセッサに切り替えると電力効率・コストが大幅に改善するのはなぜですか？",
+              a: "x86_64は可変長命令を持つCISCアーキテクチャであり、CPU内部の命令デコーダ回路が複雑で電力を多く消費します。一方、ARM64は固定長命令のRISCアーキテクチャであり、デコード回路がシンプルで1ワットあたりの演算効率が高いため、データセンターの電力コストが下がりサーバー利用料も安くなります。"
             }
           ],
           vocab: [
@@ -149,13 +149,13 @@
         },
         {
           id: "ch2-db-edge",
-          badge: "Chapter 2 (Amazon SWE & Cloudflare実践)",
+          badge: "Chapter 2 (バックエンド＆DB設計実践)",
           title: "大規模DB内部構造（B+Tree vs LSM-Tree）とエッジ・分散キャッシュ設計",
-          subtitle: "なぜRDBは秒間10万件の書き込みで詰まり、DynamoDBは速いのか？Cloudflare Edge × Redis × DB の黄金アーキテクチャ",
+          subtitle: "なぜRDBは秒間10万件の書き込みで詰まり、ワイドカラムNoSQLは速いのか？Edge CDN × In-Memory Cache × DB の黄金構成",
           date: "2026-09-24",
-          heroImage: "./slides/cs_ch2_amazon_cloudflare_db_edge_16x9.jpg",
-          heroCaption: "図解：Cloudflare Anycast Edge (①) ➔ API Gateway & LB (②) ➔ Redis 分散キャッシュ (③) ➔ B+Tree RDB と LSM-Tree NoSQL の使い分け (④)",
-          takeaway: "🎯 SWE/PM視点のポイント：プロダクトが急成長したときに最初にシステムが落ちる原因の90%は「データベース（DB）のI/Oボトルネック」です。「検索・集計・トランザクション重視なら B+Tree（PostgreSQL/Aurora）」「大量のイベント・チャット履歴の高速書き込みなら LSM-Tree（DynamoDB/Cassandra）」と使い分け、前段に Redis と Cloudflare CDN を置く設計が王道です。",
+          heroImage: "./slides/cs_ch2_production_backend_db_16x9.jpg",
+          heroCaption: "図解：Global Edge CDN (①) ➔ API Gateway & LB (②) ➔ In-Memory Distributed Cache (③) ➔ B+Tree RDB と LSM-Tree NoSQL の使い分け (④)",
+          takeaway: "🎯 SWE/PM視点のポイント：プロダクトが急成長したときに最初にシステムが落ちる原因の90%は「データベース（DB）のI/Oボトルネック」です。「検索・集計・トランザクション重視なら B+Tree（PostgreSQL/MySQL等）」「大量のイベント・チャット履歴の高速書き込みなら LSM-Tree（Cassandra/RocksDB等）」と使い分け、前段にインメモリキャッシュ（Redis）とエッジCDNを置く設計が王道です。",
           sections: [
             {
               heading: "1. データベースの2大ストレージエンジン：B+Tree vs LSM-Tree",
@@ -163,7 +163,7 @@
                 "SQLかNoSQLかという違いの裏には、ディスク（SSD）上にデータをどう並べて読み書きするかという「ストレージエンジン」の決定的な違いがあります。"
               ],
               table: {
-                headers: ["比較項目", "B+Tree エンジン (PostgreSQL / MySQL / Aurora)", "LSM-Tree エンジン (DynamoDB / Cassandra / RocksDB)"],
+                headers: ["比較項目", "B+Tree エンジン (PostgreSQL / MySQL 等のRDB)", "LSM-Tree エンジン (Cassandra / RocksDB 等のNoSQL)"],
                 rows: [
                   ["直感的なたとえ", "綺麗に索引が整理された「百科事典」", "ひたすら末尾に高速追記していく「時系列ノート」"],
                   ["書き込みの仕組み", "該当するディスクページ(8KB/16KB)を探して直接書き換える (Random I/O)", "まずメモリ(MemTable)と追記ログ(WAL)に順番に書くだけ (Sequential I/O)"],
@@ -176,7 +176,7 @@
           ],
           qa: [
             {
-              role: "Amazon SWE System Design 面接",
+              role: "バックエンドシステム設計（System Design）面接",
               q: "特定のキャッシュキー（Redis）の期限（TTL）が切れた瞬間、1万件のリクエストが同時にDBへ殺到してDBが落ちる現象を何と呼び、どう防ぎますか？",
               a: "「Thundering Herd（または Cache Stampede）」と呼びます。(1) キャッシュ再計算時にMutexロックを取得した1リクエストだけがDBを読みに行く、(2) TTLにランダムな揺らぎ（Jitter）を加えて同時期限切れを防ぐ、(3) 期限が切れる前にバックグラウンドで非同期更新する（Stale-While-Revalidate）ことで防ぎます。"
             }
@@ -184,15 +184,15 @@
           vocab: [
             { term: "B+Tree", meaning: "RDBの標準インデックス構造。最下層のリーフノードに実データと双方向ポインタを持ち、範囲検索に極めて強い。" },
             { term: "LSM-Tree", meaning: "メモリ上のMemTableとディスク上の不変ファイル(SSTable)を組み合わせ、書き込みをすべて高速な順次追記に変換する構造。" },
-            { term: "Anycast Routing", meaning: "世界300都市のサーバーに同一IPを割り当て、BGP経路制御でユーザーから最も近いエッジ拠点へ自動誘導するCloudflareのコア技術。" },
+            { term: "Anycast Routing", meaning: "世界各地のエッジサーバーに同一IPを割り当て、BGP経路制御でユーザーから最も近い拠点へ自動誘導するネットワーク技術。" },
             { term: "Bloom Filter", meaning: "少ないメモリで「そのキーが確実に存在しないこと」をO(1)で判定し、無駄なディスク読み込みを回避する確率的データ構造。" }
           ]
         },
         {
           id: "ch3-prd-kpi",
-          badge: "Chapter 3 (日本PM / PdM × SWE実務)",
+          badge: "Chapter 3 (PM / PdM × SWE 実務)",
           title: "プロダクト開発の核心：PRD（要求仕様書）・KPIツリーとAPI契約設計",
-          subtitle: "メガベンチャー・外資開発チームでPMとSWEが共通言語として使う「仕様・データ・状態遷移」の繋ぎ方",
+          subtitle: "開発チームでPMとSWEが共通言語として使う「仕様・データ・状態遷移」の繋ぎ方",
           date: "2026-09-24",
           takeaway: "🎯 SWE/PM視点のポイント：PMとSWEの連携が失敗する最大の原因は「画面の見た目（UI）だけ決めて、裏側の状態遷移（State Machine）やエッジケースを決めていないこと」です。機能を作る前に「North Star Metric」「状態遷移と異常系」「APIのべき等性（Idempotency）」を定義できる人材はどの開発組織でも重宝されます。",
           sections: [
@@ -206,14 +206,14 @@
                   ["② Guardrail Metrics", "メインKPIの裏で悪化させてはいけない指標（応答速度・解約率）", "ポップアップを増やして短期CVRは上がったが、離脱率が急増する"],
                   ["③ State Machine", "データが取りうる状態（Draft -> Pending -> Active等）と遷移条件", "想定外のステータス変更でデータの不整合バグが起きる"],
                   ["④ Edge Cases & Idempotency", "通信切断時・ボタン連打時・0件時の挙動とべき等キー設計", "決済や保存ボタンの2回タップでデータが二重登録される"],
-                  ["⑤ Rollout Plan", "Feature Flagによる段階公開（10% -> 50% -> 100%）と切り戻し手順", "障害発生時に全体デプロイのロールバックが必要になり影響が拡大する"]
+                  ["⑤ Rollout Plan", "Feature Flagによる段階公開（10% -> 50% -> 100%）と切り戻し手順", "障害発生時に全体ロールバックが必要になり影響が拡大する"]
                 ]
               }
             }
           ],
           qa: [
             {
-              role: "メガベンチャー / 外資 PM・SWE面接",
+              role: "プロダクト開発 PM・SWE 面接",
               q: "保存ボタンや決済ボタンをユーザーが素早く2回連打したとき、データが2重に作られるのを防ぐにはどう設計しますか？",
               a: "フロントエンドでボタン押下直後に disabled にして二重送信を防ぎつつ、バックエンドAPIでもクライアントが発行した Idempotency-Key（べき等キー）またはDBの UNIQUE 制約（UPSERT）を設けることで、ネットワーク再送等を含めて何回リクエストが届いても結果が1件になる『べき等性（Idempotency）』を保証します。"
             }
@@ -227,17 +227,17 @@
       ai_news: [
         {
           id: "news-2026-09-24",
-          badge: "📰 Claude Daily AI & Tech Brief",
-          title: "【2026-09-24】自律型AIエージェント(MCP)・Cloudflare Edge AI・Rustツール群の台頭",
-          subtitle: "Claudeが毎日キュレーションする「AI・IT業界の重要ニュース」と「プロダクト開発（SWE/PM）への実践的示唆」専用ノート",
+          badge: "📰 Daily AI & Tech Brief",
+          title: "【2026-09-24】自律型AIエージェント(MCP)・エッジAI推論・Rust製高速ツール群の台頭",
+          subtitle: "毎日キュレーションする「AI・IT業界の重要ニュース」と「プロダクト開発（SWE/PM）への実践的示唆」専用ノート",
           date: "2026-09-24",
-          takeaway: "💡 本日の総括：AI開発の主戦場は「チャットUI」から「バックグラウンドで外部API・DB・ブラウザを自律操作する Agentic Workflow（MCP標準化）」と「エッジでの超低遅延推論（Cloudflare Workers AI等）」へ移っています。PM/SWEとしては、人間用のUIだけでなく『AIエージェントが呼び出しやすい構造化API』を設計することが今後のプロダクト開発の鍵になります。",
+          takeaway: "💡 本日の総括：AI開発の主戦場は「チャットUI」から「バックグラウンドで外部API・DB・ブラウザを自律操作する Agentic Workflow（MCP標準化）」と「エッジでの超低遅延推論」へ移っています。PM/SWEとしては、人間用のUIだけでなく『AIエージェントが呼び出しやすい構造化API』を設計することが今後のプロダクト開発の鍵になります。",
           sections: [
             {
               heading: "🔥 1. Agentic Coding & MCP (Model Context Protocol) による外部ツール連携の標準化",
               paragraphs: [
-                "Anthropic Claude や Google Gemini を中心に、AIが単発の質問応答にとどまらず、DBスキーマの読み取り・コード改修・テスト実行・デプロイまでを自律的に行う『Agentic Workflow』が開発現場の標準になりつつあります。",
-                "特に、AIモデルと各種データソース（GitHub, PostgreSQL, Slack, Google Workspace等）を共通規格で繋ぐ MCP (Model Context Protocol) の普及により、ツールごとに個別の連携コードを書くコストが劇的に下がっています。"
+                "最新のAIモデルにおいて、単発の質問応答にとどまらず、DBスキーマの読み取り・コード改修・テスト実行・デプロイまでを自律的に行う『Agentic Workflow』が開発現場の標準になりつつあります。",
+                "特に、AIモデルと各種データソース（Git、RDB、社内ドキュメント等）を共通規格で繋ぐ MCP (Model Context Protocol) の普及により、ツールごとに個別の連携コードを書くコストが劇的に下がっています。"
               ],
               table: {
                 headers: ["視点", "従来のLLM組み込み開発", "これからの Agentic / MCP プロダクト開発"],
@@ -249,9 +249,9 @@
               }
             },
             {
-              heading: "⚡ 2. Cloudflare Workers AI & Edge Vector DB による「待ち時間ゼロ」のAI UX",
+              heading: "⚡ 2. エッジAI推論とセマンティックキャッシュによる「待ち時間ゼロ」のAI UX",
               paragraphs: [
-                "AI機能をプロダクトに導入する際の最大の離脱要因は『回答が出るまで3〜5秒待たされるレイテンシ』です。Cloudflareのエッジネットワーク（V8 Isolates）と軽量高速モデル（Gemini Flash / Claude Haikuクラス）のストリーミング配信・セマンティックキャッシュを組み合わせることで、体感待ち時間200ms以下のAI機能が実装可能になっています。"
+                "AI機能をプロダクトに導入する際の最大の離脱要因は『回答が出るまで3〜5秒待たされるレイテンシ』です。エッジネットワーク（V8 Isolates等）と軽量高速モデルのストリーミング配信・セマンティックキャッシュを組み合わせることで、体感待ち時間200ms以下のAI機能が実装可能になっています。"
               ]
             }
           ],
@@ -259,7 +259,7 @@
             {
               role: "AI Product Manager / SWE 面接",
               q: "自社プロダクトにLLMを組み込む際、APIコストの高騰とレイテンシ（応答の遅さ）をどうやって同時に解決しますか？",
-              a: "(1) すべてのリクエストに大型モデルを使わず、分類や要約は高速・安価な Flash/Haiku モデルへ振り分ける Model Routing を行う、(2) よくある質問や類似クエリはベクトル類似度を用いた Semantic Cache（Redis等）から10msで返却する、(3) 画面側は Server-Sent Events (SSE) ストリーミングで最初の1文字目（TTFT）を0.3秒以内に表示して体感待ち時間をなくします。"
+              a: "(1) すべてのリクエストに大型モデルを使わず、分類や要約は高速・安価な軽量モデルへ振り分ける Model Routing を行う、(2) よくある質問や類似クエリはベクトル類似度を用いた Semantic Cache（インメモリDB等）から10msで返却する、(3) 画面側は Server-Sent Events (SSE) ストリーミングで最初の1文字目（TTFT）を0.3秒以内に表示して体感待ち時間をなくします。"
             }
           ],
           vocab: [

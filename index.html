@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📘 Daily Knowledge Hub | SWE/PM Engineering・AI News・PHS Thailand</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+  <!-- Header -->
+  <header class="sticky top-0 z-30 bg-slate-900 text-white border-b border-slate-800 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-600 text-white rounded-full">STANDALONE STUDY PORTAL</span>
+          <span class="text-xs text-slate-400">Owner: jundeiiya@gmail.com | Auto-Updated Daily at 06:00 JST by Claude & Gemini</span>
+        </div>
+        <h1 class="text-xl sm:text-2xl font-bold tracking-tight mt-1">
+          📘 Daily Knowledge Hub（SWE/PM 開発・日刊AI/ITニュース・PHS Thailand）
+        </h1>
+      </div>
+
+      <!-- 3 Main Notebook Tabs -->
+      <div class="flex flex-wrap gap-2" id="main-tabs">
+        <button onclick="switchCategory('swe_pm')" id="tab-swe_pm" class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-sm ring-2 ring-blue-400">
+          💻 ① CS & SWE / PM 開発ノート
+        </button>
+        <button onclick="switchCategory('ai_news')" id="tab-ai_news" class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
+          📰 ② 日刊 AI & IT ニュースノート
+        </button>
+        <button onclick="switchCategory('phs')" id="tab-phs" class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
+          🏥 ③ PHS Thailand 公衆衛生ノート
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- Left Sidebar: Chapter Tabs -->
+    <aside class="lg:col-span-3 space-y-4">
+      <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
+          📂 章・日付タブ切り替え
+        </h2>
+        <nav id="chapter-list" class="space-y-1.5"></nav>
+      </div>
+
+      <div class="bg-slate-900 text-slate-200 rounded-xl p-4 text-xs space-y-2 shadow-sm">
+        <div class="font-bold text-white flex items-center gap-1.5">
+          <span>⚡</span> 毎朝 06:00 JST 自動蓄積
+        </div>
+        <p class="text-slate-300 leading-relaxed">
+          特定のアプリとは完全に分離された独立ナレッジベースです。毎朝 Claude Sonnet 4.6 と Gemini 2.5 Flash が新しい章と最新AI/ITニュースをこのノートに追記します。
+        </p>
+      </div>
+    </aside>
+
+    <!-- Right Document Content -->
+    <main class="lg:col-span-9" id="doc-container"></main>
+  </div>
+
+  <script>
+    const DATA = {
+      swe_pm: [
+        {
+          id: "roadmap",
+          badge: "🗺️ Master Roadmap",
+          title: "日本での SWE / PM (PdM) キャリアを実現する体系的カリキュラム",
+          subtitle: "CS基礎から Amazon / Cloudflare 級のシステム設計、そしてプロダクト開発（PRD・KPI設計・技術的意思決定）までを繋ぐ全体設計図",
+          date: "Updated: 2026-09-24",
+          takeaway: "日本でプロダクト開発サイド（SWE / PM・PdM）へ進む上で最大の差別化になるのは、「ビジネス上のユーザー課題・KPI」と「裏側のシステム制約（DB構造・API設計・レイテンシ・インフラコスト）」を同じ解像度で語れることです。毎日1章ずつ、以下の4フェーズを体系的に積み上げます。",
+          sections: [
+            {
+              heading: "1. プロダクト開発 (SWE × PM) 4大レイヤーと学習ロードマップ",
+              paragraphs: [
+                "教科書的なCS知識だけで終わらせず、実際の開発現場や選考（技術面接・システム設計面接・PMケース面接）でそのまま使える実践知識として体系化しています。"
+              ],
+              table: {
+                headers: ["フェーズ", "領域", "学ぶコアテーマ", "SWE / PM 実務での活かし方"],
+                rows: [
+                  ["Phase 1", "CS & OS Core", "Ch.1 半導体・論理ゲート・コンパイラ / Ch.2 CPUキャッシュ・仮想メモリ・非同期ランタイム", "言語選定（Rust/Go/TS/Python）、メモリリークや高負荷時のボトルネック特定"],
+                  ["Phase 2", "Database & Storage", "Ch.3 B+Tree vs LSM-Tree / Ch.4 ACID・分離レベル・複合インデックス・水平シャーディング", "機能の特性（検索重視か大量書込か）に応じたRDB(PostgreSQL) vs NoSQL(DynamoDB)の選定"],
+                  ["Phase 3", "Cloud, Edge & Scale", "Ch.5 Redis分散キャッシュ / Ch.6 Cloudflare Anycast・Edge Workers・CDN・レート制限", "グローバル低遅延UXの実現、急激なトラフィック増（スパイク）でも落ちない高可用性設計"],
+                  ["Phase 4", "Product Management", "Ch.7 PRD（要求仕様書）とAPI契約 / Ch.8 KPIツリー(NSM)・A/Bテスト統計・RICE優先度評価", "エンジニアと対等に仕様を詰められる技術的PM力、最小工数で最大価値を生むMVP設計"]
+                ]
+              }
+            }
+          ],
+          qa: [
+            {
+              role: "SWE / PM 共通面接",
+              q: "新機能を開発するとき、どうやって技術スタックやDB設計のトレードオフを決めますか？",
+              a: "まずユーザー体験上の許容レイテンシ（例：画面遷移は200ms以内）とデータの一貫性要件（決済のようにACIDが必須か、タイムラインのように結果整合性で良いか）を定義します。その上でRead/Write比率を見積もり、Read重視ならRDB(B+Tree)＋Redisキャッシュ、Write大量ならLSM-Treeやキューイングを選択します。"
+            }
+          ],
+          vocab: [
+            { term: "PRD (Product Requirements Document)", meaning: "「なぜ作るか(Why)」「誰の何を解決するか(What)」「成功指標(Metrics)」「非機能要件(Latency/SLA)」を定義する要求仕様書。" },
+            { term: "Non-Functional Requirements (非機能要件)", meaning: "機能そのものではなく、性能（応答速度）、可用性（稼働率99.9%）、セキュリティ、保守性などプロダクトの品質を決める技術要件。" }
+          ]
+        },
+        {
+          id: "ch1-silicon-compiler",
+          badge: "Chapter 1 (CS基礎)",
+          title: "半導体チップ・論理ゲートとコンパイラの本質",
+          subtitle: "人間が書くコード（Python / TypeScript / Rust）はどうやってシリコン上の「0と1の電圧」に変わるのか？",
+          date: "2026-09-24",
+          heroImage: "./slides/cs_ch1_compiler_silicon_16x9.jpg",
+          heroCaption: "図解：高級言語（Stage 1）からコンパイラ/AST（Stage 2）、機械語ISA（Stage 3）を経てシリコンCPUの論理ゲート（Stage 4）で実行されるまでの全体フロー",
+          takeaway: "🎯 SWE/PM視点のポイント：「なぜPythonよりRustやGoが10倍〜50倍速く、クラウドサーバー代（AWSコスト）を1/5に削減できるのか？」の答えはこのコンパイル過程にあります。プロダクトの初期検証（PoC）は開発速度の速いTS/Pythonで行い、高負荷なコア基盤はネイティブ機械語にコンパイルされる言語へ切り出すのが現代プロダクト開発の定石です。",
+          sections: [
+            {
+              heading: "1. コア概念：すべては「電圧のON/OFF（0Vと1V）」に帰着する",
+              paragraphs: [
+                "コンピュータの心臓部であるCPU（プロセッサ）は、指先の爪ほどのシリコン結晶の上に数十億個の微細な半導体スイッチ（MOSFETトランジスタ）を集積したものです。",
+                "なぜ「0〜9」の十進数ではなく「0と1」の二進数だけを使うのでしょうか？もし電圧を0V〜9Vの10段階で表現しようとすると、発熱や電磁ノイズで少し電圧が揺らいだだけで「3が4に化ける」という計算ミスが起きます。しかし「電圧が高い（約1V＝1）」「電圧が低い（0V＝0）」の2状態だけに絞れば、毎秒数十億回（数GHz）の超高速スイッチングでも100%正確な計算が可能になります。"
+              ]
+            },
+            {
+              heading: "2. コンパイラ言語 vs インタプリタ/JIT言語の徹底比較",
+              paragraphs: ["バックエンド・インフラの技術選定で必ず直面する違いです。"],
+              table: {
+                headers: ["比較軸", "AOTコンパイラ言語 (Rust / Go / C++)", "インタプリタ・JIT言語 (Python / Node.js / Ruby)"],
+                rows: [
+                  ["変換タイミング", "実行前に全文を一括で機械語（0と1）へ翻訳", "実行しながら1行ずつ解析、頻出箇所をJITで機械語化"],
+                  ["実行速度・メモリ効率", "極めて高速・省メモリ（GC停止がないRustは特に高速）", "オーバーヘッドが大きいが、I/O待ち主体なら十分実用的"],
+                  ["クラウドインフラ費用", "同一トラフィックを少ないCPU/RAMで捌けるため安価", "スケール時にコンテナ数・メモリが多く必要になりやすい"],
+                  ["プロダクト開発での適性", "高負荷API基盤・決済・Cloudflare Edge・ビルドツール", "AI/ML連携・迅速なMVP開発・Webアプリケーション全般"]
+                ]
+              }
+            }
+          ],
+          qa: [
+            {
+              role: "Amazon / メガベンチャー SWE面接",
+              q: "AWSのEC2やRDSで従来のIntel (x86_64) から Graviton (ARM64) に切り替えるとコストが最大40%下がるのはなぜですか？",
+              a: "x86_64は可変長命令を持つCISCアーキテクチャであり、CPU内部の命令デコーダ回路が複雑で電力を多く消費します。一方、ARM64（Apple SiliconやAWS Graviton）は固定長命令のRISCアーキテクチャであり、デコード回路がシンプルで1ワットあたりの演算効率が高いため、データセンターの電力コストが下がりインスタンス料金も安くなります。"
+            }
+          ],
+          vocab: [
+            { term: "MOSFET", meaning: "ゲート電圧の有無で電流のON(1)/OFF(0)をナノ秒で切り替える現代CPUの半導体スイッチ。" },
+            { term: "ALU (算術論理演算装置)", meaning: "CPU内部で足し算・引き算・ビット論理演算を実際に実行する演算回路。" },
+            { term: "ISA (命令セットアーキテクチャ)", meaning: "x86_64やARM64など、ソフトウェア（機械語）とCPUハードウェアの間の契約仕様。" },
+            { term: "AST (抽象構文木)", meaning: "コンパイラやLinterがプログラムの構造を木構造として表現したデータ。" }
+          ]
+        },
+        {
+          id: "ch2-db-edge",
+          badge: "Chapter 2 (Amazon SWE & Cloudflare実践)",
+          title: "大規模DB内部構造（B+Tree vs LSM-Tree）とエッジ・分散キャッシュ設計",
+          subtitle: "なぜRDBは秒間10万件の書き込みで詰まり、DynamoDBは速いのか？Cloudflare Edge × Redis × DB の黄金アーキテクチャ",
+          date: "2026-09-24",
+          heroImage: "./slides/cs_ch2_amazon_cloudflare_db_edge_16x9.jpg",
+          heroCaption: "図解：Cloudflare Anycast Edge (①) ➔ API Gateway & LB (②) ➔ Redis 分散キャッシュ (③) ➔ B+Tree RDB と LSM-Tree NoSQL の使い分け (④)",
+          takeaway: "🎯 SWE/PM視点のポイント：プロダクトが急成長したときに最初にシステムが落ちる原因の90%は「データベース（DB）のI/Oボトルネック」です。「検索・集計・トランザクション重視なら B+Tree（PostgreSQL/Aurora）」「大量のイベント・チャット履歴の高速書き込みなら LSM-Tree（DynamoDB/Cassandra）」と使い分け、前段に Redis と Cloudflare CDN を置く設計が王道です。",
+          sections: [
+            {
+              heading: "1. データベースの2大ストレージエンジン：B+Tree vs LSM-Tree",
+              paragraphs: [
+                "SQLかNoSQLかという違いの裏には、ディスク（SSD）上にデータをどう並べて読み書きするかという「ストレージエンジン」の決定的な違いがあります。"
+              ],
+              table: {
+                headers: ["比較項目", "B+Tree エンジン (PostgreSQL / MySQL / Aurora)", "LSM-Tree エンジン (DynamoDB / Cassandra / RocksDB)"],
+                rows: [
+                  ["直感的なたとえ", "綺麗に索引が整理された「百科事典」", "ひたすら末尾に高速追記していく「時系列ノート」"],
+                  ["書き込みの仕組み", "該当するディスクページ(8KB/16KB)を探して直接書き換える (Random I/O)", "まずメモリ(MemTable)と追記ログ(WAL)に順番に書くだけ (Sequential I/O)"],
+                  ["読み取り性能 (Read)", "◎ 非常に高速。主キー検索も範囲検索 (BETWEEN) も O(log N) で即完了", "△ 複数のSSTableを探す必要があるため、Bloom Filterで高速化する"],
+                  ["書き込み性能 (Write)", "△ 大量書き込み時にランダムI/Oとページ分割が発生し詰まりやすい", "◎ 圧倒的に高速。ランダムI/Oを排除するため秒間数十万件の書込に耐える"],
+                  ["向いている機能", "ユーザー口座・決済・在庫管理・複雑なJOINや条件検索が必要な基幹データ", "チャットメッセージ履歴・IoTセンサー・行動ログ・大規模通知ストリーム"]
+                ]
+              }
+            }
+          ],
+          qa: [
+            {
+              role: "Amazon SWE System Design 面接",
+              q: "特定のキャッシュキー（Redis）の期限（TTL）が切れた瞬間、1万件のリクエストが同時にDBへ殺到してDBが落ちる現象を何と呼び、どう防ぎますか？",
+              a: "「Thundering Herd（または Cache Stampede）」と呼びます。(1) キャッシュ再計算時にMutexロックを取得した1リクエストだけがDBを読みに行く、(2) TTLにランダムな揺らぎ（Jitter）を加えて同時期限切れを防ぐ、(3) 期限が切れる前にバックグラウンドで非同期更新する（Stale-While-Revalidate）ことで防ぎます。"
+            }
+          ],
+          vocab: [
+            { term: "B+Tree", meaning: "RDBの標準インデックス構造。最下層のリーフノードに実データと双方向ポインタを持ち、範囲検索に極めて強い。" },
+            { term: "LSM-Tree", meaning: "メモリ上のMemTableとディスク上の不変ファイル(SSTable)を組み合わせ、書き込みをすべて高速な順次追記に変換する構造。" },
+            { term: "Anycast Routing", meaning: "世界300都市のサーバーに同一IPを割り当て、BGP経路制御でユーザーから最も近いエッジ拠点へ自動誘導するCloudflareのコア技術。" },
+            { term: "Bloom Filter", meaning: "少ないメモリで「そのキーが確実に存在しないこと」をO(1)で判定し、無駄なディスク読み込みを回避する確率的データ構造。" }
+          ]
+        },
+        {
+          id: "ch3-prd-kpi",
+          badge: "Chapter 3 (日本PM / PdM × SWE実務)",
+          title: "プロダクト開発の核心：PRD（要求仕様書）・KPIツリーとAPI契約設計",
+          subtitle: "メガベンチャー・外資開発チームでPMとSWEが共通言語として使う「仕様・データ・状態遷移」の繋ぎ方",
+          date: "2026-09-24",
+          takeaway: "🎯 SWE/PM視点のポイント：PMとSWEの連携が失敗する最大の原因は「画面の見た目（UI）だけ決めて、裏側の状態遷移（State Machine）やエッジケースを決めていないこと」です。機能を作る前に「North Star Metric」「状態遷移と異常系」「APIのべき等性（Idempotency）」を定義できる人材はどの開発組織でも重宝されます。",
+          sections: [
+            {
+              heading: "1. エンジニアに100%伝わる PRD（要求仕様書）の5必須要素",
+              paragraphs: ["PMを目指す場合も、仕様を主導できるシニアSWEを目指す場合も、以下の5項目を整理するだけで手戻りがゼロになります。"],
+              table: {
+                headers: ["PRDセクション", "定義すべき内容", "欠落したときに起きるトラブル"],
+                rows: [
+                  ["① Why & Hypothesis", "誰のどんな課題を解決し、どの指標を何%動かすかの仮説", "「作ることが目的化」し、リリース後に誰も使わない機能になる"],
+                  ["② Guardrail Metrics", "メインKPIの裏で悪化させてはいけない指標（応答速度・解約率）", "ポップアップを増やして短期CVRは上がったが、離脱率が急増する"],
+                  ["③ State Machine", "データが取りうる状態（Draft -> Pending -> Active等）と遷移条件", "想定外のステータス変更でデータの不整合バグが起きる"],
+                  ["④ Edge Cases & Idempotency", "通信切断時・ボタン連打時・0件時の挙動とべき等キー設計", "決済や保存ボタンの2回タップでデータが二重登録される"],
+                  ["⑤ Rollout Plan", "Feature Flagによる段階公開（10% -> 50% -> 100%）と切り戻し手順", "障害発生時に全体デプロイのロールバックが必要になり影響が拡大する"]
+                ]
+              }
+            }
+          ],
+          qa: [
+            {
+              role: "メガベンチャー / 外資 PM・SWE面接",
+              q: "保存ボタンや決済ボタンをユーザーが素早く2回連打したとき、データが2重に作られるのを防ぐにはどう設計しますか？",
+              a: "フロントエンドでボタン押下直後に disabled にして二重送信を防ぎつつ、バックエンドAPIでもクライアントが発行した Idempotency-Key（べき等キー）またはDBの UNIQUE 制約（UPSERT）を設けることで、ネットワーク再送等を含めて何回リクエストが届いても結果が1件になる『べき等性（Idempotency）』を保証します。"
+            }
+          ],
+          vocab: [
+            { term: "Idempotency (べき等性)", meaning: "同じ操作・APIリクエストを1回実行しても複数回実行しても、システムの状態（DBの結果）が同じになる性質。" },
+            { term: "RICE Scoring", meaning: "施策の優先順位を Reach(到達人数) × Impact(影響度) × Confidence(確信度) ÷ Effort(開発工数) で定量評価する手法。" }
+          ]
+        }
+      ],
+      ai_news: [
+        {
+          id: "news-2026-09-24",
+          badge: "📰 Claude Daily AI & Tech Brief",
+          title: "【2026-09-24】自律型AIエージェント(MCP)・Cloudflare Edge AI・Rustツール群の台頭",
+          subtitle: "Claudeが毎日キュレーションする「AI・IT業界の重要ニュース」と「プロダクト開発（SWE/PM）への実践的示唆」専用ノート",
+          date: "2026-09-24",
+          takeaway: "💡 本日の総括：AI開発の主戦場は「チャットUI」から「バックグラウンドで外部API・DB・ブラウザを自律操作する Agentic Workflow（MCP標準化）」と「エッジでの超低遅延推論（Cloudflare Workers AI等）」へ移っています。PM/SWEとしては、人間用のUIだけでなく『AIエージェントが呼び出しやすい構造化API』を設計することが今後のプロダクト開発の鍵になります。",
+          sections: [
+            {
+              heading: "🔥 1. Agentic Coding & MCP (Model Context Protocol) による外部ツール連携の標準化",
+              paragraphs: [
+                "Anthropic Claude や Google Gemini を中心に、AIが単発の質問応答にとどまらず、DBスキーマの読み取り・コード改修・テスト実行・デプロイまでを自律的に行う『Agentic Workflow』が開発現場の標準になりつつあります。",
+                "特に、AIモデルと各種データソース（GitHub, PostgreSQL, Slack, Google Workspace等）を共通規格で繋ぐ MCP (Model Context Protocol) の普及により、ツールごとに個別の連携コードを書くコストが劇的に下がっています。"
+              ],
+              table: {
+                headers: ["視点", "従来のLLM組み込み開発", "これからの Agentic / MCP プロダクト開発"],
+                rows: [
+                  ["アーキテクチャ", "プロンプトにテキストを詰め込んで1回だけ回答を生成", "AIが状況に応じて複数のツール（検索・DB更新・検証）をループ実行"],
+                  ["SWEへの示唆", "JSON SchemaによるStructured Outputsと安全なサンドボックス設計が必須", "MCPサーバー規格に準拠したAPI設計とレート制限・権限管理の徹底"],
+                  ["PMへの示唆", "「AIとチャットする機能」を作るだけでは差別化できない", "「ユーザーの代わりに面倒な業務プロセスを裏側で完了させる体験」を設計する"]
+                ]
+              }
+            },
+            {
+              heading: "⚡ 2. Cloudflare Workers AI & Edge Vector DB による「待ち時間ゼロ」のAI UX",
+              paragraphs: [
+                "AI機能をプロダクトに導入する際の最大の離脱要因は『回答が出るまで3〜5秒待たされるレイテンシ』です。Cloudflareのエッジネットワーク（V8 Isolates）と軽量高速モデル（Gemini Flash / Claude Haikuクラス）のストリーミング配信・セマンティックキャッシュを組み合わせることで、体感待ち時間200ms以下のAI機能が実装可能になっています。"
+              ]
+            }
+          ],
+          qa: [
+            {
+              role: "AI Product Manager / SWE 面接",
+              q: "自社プロダクトにLLMを組み込む際、APIコストの高騰とレイテンシ（応答の遅さ）をどうやって同時に解決しますか？",
+              a: "(1) すべてのリクエストに大型モデルを使わず、分類や要約は高速・安価な Flash/Haiku モデルへ振り分ける Model Routing を行う、(2) よくある質問や類似クエリはベクトル類似度を用いた Semantic Cache（Redis等）から10msで返却する、(3) 画面側は Server-Sent Events (SSE) ストリーミングで最初の1文字目（TTFT）を0.3秒以内に表示して体感待ち時間をなくします。"
+            }
+          ],
+          vocab: [
+            { term: "MCP (Model Context Protocol)", meaning: "AIモデルが外部のデータベース・API・ローカルツールと安全かつ統一的な形式でやり取りするためのオープンプロトコル。" },
+            { term: "TTFT (Time To First Token)", meaning: "ユーザーがリクエストを送ってから、AIの回答の最初の1文字目が画面に表示されるまでの時間。UXを左右する最重要指標。" },
+            { term: "Semantic Caching", meaning: "文字列の完全一致だけでなく「意味が同じ質問」をベクトル検索で判定してキャッシュから高速回答する技術。" }
+          ]
+        }
+      ],
+      phs: [
+        {
+          id: "phs-ch1-epidemiology",
+          badge: "PHS Chapter 1 (Epidemiology)",
+          title: "Incidence (罹患率) vs. Prevalence (有病率) ── 疫学バスタブモデルとプロダクト指標の共通構造",
+          subtitle: "タイ公衆衛生大学院（PHS Thailand）最重要基礎と、データドリブンPM分析への応用",
+          date: "2026-09-24",
+          heroImage: "./slides/phs_ch1_bathtub_epidemiology_16x9.jpg",
+          heroCaption: "図解：Epidemiological Bathtub Model ── 蛇口からの流入が Incidence（新規発症率）、浴槽の水位が Prevalence（有病率 = I × D）、排水口が回復と死亡",
+          takeaway: "🎯 公衆衛生 × プロダクト開発 (PM/データ分析) の繋がり：疫学のバスタブモデル『Prevalence（有病率）≈ Incidence（新規流入率）× Duration（平均罹病期間）』は、実はプロダクト開発における『アクティブユーザー数 ＝ 新規獲得率（Inflow）× 平均継続期間（LTV）』と数学的に100%同じ構造です！PHSで学ぶ疫学・生物統計は、プロダクト開発の定量分析力そのものになります。",
+          sections: [
+            {
+              heading: "1. Incidence と Prevalence の決定的な違い（Flow vs. Stock）",
+              paragraphs: [
+                "疫学（Epidemiology）において、病気の広がりを測る指標は大きく『新しく発生するスピード（Flow）』と『今その病気を持っている人の割合（Stock）』の2つに分かれます。"
+              ],
+              table: {
+                headers: ["比較項目", "Incidence (罹患率 / 新規発生率)", "Prevalence (有病率)"],
+                rows: [
+                  ["本質的な概念", "Flow（一定期間内に「新しく発症した」スピード）", "Stock（ある一時点において「病気を持っている」人の割合）"],
+                  ["バスタブモデル", "蛇口から浴槽へ注ぎ込まれる「水流の勢い」", "浴槽の中に現在溜まっている「水位の高さ (P ≈ I × D)」"],
+                  ["公衆衛生での用途", "病因・リスク因子の特定、ワクチンや予防施策の効果判定", "病床数・医療スタッフ・国家医療予算（タイUCS等）の配分計画"],
+                  ["プロダクト開発(PM)での対応", "新規ユーザー登録率（Activation）や新規バグ発生率", "現在のMAU（月間アクティブ数）や未解決技術的負債の総量"]
+                ]
+              }
+            },
+            {
+              heading: "2. 延命治療のパラドックス（The Paradox of Better Treatment）",
+              paragraphs: [
+                "画期的な延命治療薬（例：HIVに対する抗レトロウイルス療法 ART）が普及すると、患者が亡くならずに長生きする（Duration D が伸びる）ため、浴槽の水位である Prevalence（有病率）は【上昇】します。つまり『有病率の上昇』は医療の失敗ではなく、救命・延命に成功した証でもあります。"
+              ]
+            }
+          ],
+          qa: [
+            {
+              role: "PHS Thailand 大学院 / データサイエンス面接",
+              q: "ある地域で新しい予防ワクチンを導入した効果を最も正確に評価するには、Incidence と Prevalence のどちらを見るべきですか？",
+              a: "『Incidence（罹患率）』を見るべきです。なぜなら Prevalence（有病率）にはワクチン導入前にすでに発症して闘病中の患者（Stock）が含まれており、さらに治療技術の向上（Durationの延長）によっても変動してしまうため、純粋な『新規発症を防げたか』は Incidence でしか測れないからです。"
+            }
+          ],
+          vocab: [
+            { term: "Cumulative Incidence (累積罹患率)", meaning: "一定期間内にリスク集団（Population at Risk）の中から新規に発症する確率（Risk）。" },
+            { term: "Incidence Density (人年法罹患率)", meaning: "分母に追跡期間の合計（Person-Time）を置き、観察期間の長短や途中脱落を考慮して発症速度を測る指標。" },
+            { term: "Point Prevalence (時点有病率)", meaning: "特定の一日時点において疾病を有している人の割合。" },
+            { term: "Population at Risk", meaning: "すでに既感染の人や免疫保有者を除いた、「これから新規に発症しうる母集団」。" }
+          ]
+        }
+      ]
+    };
+
+    let currentCategory = "swe_pm";
+    let currentChapterId = "ch2-db-edge";
+
+    function switchCategory(cat) {
+      currentCategory = cat;
+      currentChapterId = DATA[cat][0].id;
+      ["swe_pm", "ai_news", "phs"].forEach((k) => {
+        const btn = document.getElementById("tab-" + k);
+        if (k === cat) {
+          btn.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-sm ring-2 ring-blue-400";
+        } else {
+          btn.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700";
+        }
+      });
+      renderSidebar();
+      renderDoc();
+    }
+
+    function selectChapter(id) {
+      currentChapterId = id;
+      renderSidebar();
+      renderDoc();
+    }
+
+    function renderSidebar() {
+      const list = DATA[currentCategory];
+      const nav = document.getElementById("chapter-list");
+      nav.innerHTML = list.map((ch) => {
+        const active = ch.id === currentChapterId;
+        return `
+          <button onclick="selectChapter('${ch.id}')" class="w-full text-left px-3.5 py-3 rounded-lg transition-all border ${
+            active
+              ? "bg-blue-50 border-blue-500 text-blue-900 font-bold shadow-xs"
+              : "bg-white border-transparent hover:bg-slate-100 text-slate-700"
+          }">
+            <div class="text-[11px] font-semibold text-blue-600 mb-0.5">${ch.badge}</div>
+            <div class="text-sm leading-snug">${ch.title}</div>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function renderDoc() {
+      const list = DATA[currentCategory];
+      const doc = list.find((c) => c.id === currentChapterId) || list[0];
+      const container = document.getElementById("doc-container");
+
+      const heroHtml = doc.heroImage ? `
+        <figure class="rounded-xl border border-slate-200 bg-slate-50 p-3 shadow-xs">
+          <img src="${doc.heroImage}" alt="${doc.title}" class="w-full h-auto rounded-lg object-contain" />
+          <figcaption class="mt-2.5 text-xs sm:text-sm text-center text-slate-600 font-medium">🖼️ ${doc.heroCaption || ""}</figcaption>
+        </figure>
+      ` : "";
+
+      const sectionsHtml = doc.sections.map((s) => {
+        const pHtml = (s.paragraphs || []).map((p) => `<p class="text-sm sm:text-base text-slate-700 leading-relaxed">${p}</p>`).join("");
+        const tblHtml = s.table ? `
+          <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-2xs mt-3">
+            <table class="min-w-full divide-y divide-slate-200 text-left text-xs sm:text-sm">
+              <thead class="bg-slate-100 text-slate-800 font-bold">
+                <tr>${s.table.headers.map((h) => `<th class="px-4 py-3">${h}</th>`).join("")}</tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 bg-white">
+                ${s.table.rows.map((r) => `
+                  <tr class="hover:bg-slate-50">
+                    ${r.map((c, idx) => `<td class="px-4 py-3 leading-relaxed ${idx === 0 ? "font-bold text-slate-900 whitespace-nowrap" : "text-slate-700"}">${c}</td>`).join("")}
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+        ` : "";
+        return `<section class="space-y-4"><h3 class="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-200 pb-2">${s.heading}</h3>${pHtml}${tblHtml}</section>`;
+      }).join("");
+
+      const qaHtml = (doc.qa || []).map((item) => `
+        <div class="space-y-2">
+          <div class="text-xs font-bold text-blue-700">[${item.role}]</div>
+          <div class="font-bold text-sm sm:text-base text-slate-900">Q. ${item.q}</div>
+          <div class="text-xs sm:text-sm text-slate-800 leading-relaxed bg-white rounded-lg p-4 border border-blue-100">
+            <span class="font-bold text-emerald-700">模範解答の核：</span> ${item.a}
+          </div>
+        </div>
+      `).join("");
+
+      const vocabHtml = (doc.vocab || []).map((v) => `
+        <div class="rounded-lg border border-slate-200 p-3.5 bg-white">
+          <div class="font-bold text-sm text-slate-900">${v.term}</div>
+          <div class="text-xs text-slate-600 mt-1 leading-relaxed">${v.meaning}</div>
+        </div>
+      `).join("");
+
+      container.innerHTML = `
+        <article class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-blue-950 text-white p-6 sm:p-8">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 border border-blue-400/40 text-blue-200">${doc.badge}</span>
+              <span class="text-xs text-slate-300 font-mono">📅 ${doc.date}</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold leading-tight">${doc.title}</h2>
+            <p class="mt-2.5 text-sm sm:text-base text-blue-100 leading-relaxed">${doc.subtitle}</p>
+          </div>
+
+          <div class="p-6 sm:p-8 space-y-8">
+            <div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-5">
+              <div class="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1">💡 プロダクト開発 (SWE / PM) における最重要ポイント</div>
+              <p class="text-sm sm:text-base text-slate-800 leading-relaxed font-medium">${doc.takeaway}</p>
+            </div>
+
+            ${heroHtml}
+            ${sectionsHtml}
+
+            <section class="bg-blue-50/70 rounded-xl border border-blue-200 p-5 space-y-4">
+              <h3 class="text-base sm:text-lg font-bold text-blue-950 flex items-center gap-2"><span>🎯</span> 選考・実務ケース面接 Q&A（SWE / PM 対策）</h3>
+              ${qaHtml}
+            </section>
+
+            <section class="space-y-3">
+              <h3 class="text-base sm:text-lg font-bold text-slate-900 border-b border-slate-200 pb-2">📖 必須エンジニアリング＆ドメイン用語集</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${vocabHtml}</div>
+            </section>
+          </div>
+        </article>
+      `;
+    }
+
+    renderSidebar();
+    renderDoc();
+  </script>
+</body>
+</html>

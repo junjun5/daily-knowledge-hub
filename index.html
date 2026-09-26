@@ -137,6 +137,67 @@
     const HUB_DATA = {
       ai_news: [
         {
+          "id": "news-2026-09-26",
+          "badge": "DIGEST / 2026-09-26",
+          "title": "2026-09-26 — エージェント間通信プロトコル・推論キャッシュ最適化・高並行ランタイム設計",
+          "subtitle": "最新テックヘッドラインの構造的分析と、SWE / PM が押さえるべきシステム設計原則",
+          "date": "2026-09-26",
+          "diagramType": "ai_arch",
+          "heroImage": "./slides/ai_trend_agentic_rag_textbook_16x9.jpg",
+          "heroCaption": "Fig. Production AI System & Distributed Inference Pipeline",
+          "takeaway": "本日の主要トレンドは、(1) プロンプトプレフィックスの KV Cache 再利用とセマンティックキャッシュによる推論コストの最大70%削減、(2) 非同期ジョブキューと Server-Sent Events (SSE) を組み合わせた長時間エージェント実行UXの標準化、(3) データベース読み取り負荷を保護する Read-Through キャッシュと Singleflight 制御の徹底です。",
+          "sections": [
+                    {
+                              "heading": "1. 本日のヘッドライン分析と裏側のシステムアーキテクチャ",
+                              "paragraphs": [
+                                        "生成AI機能やデータ集約型アプリケーションがプロトタイプから本番運用フェーズへ移行する中で、最も大きな課題となっているのが「推論レイテンシのばらつき（Tail Latency）」と「API・DBインフラコストの増大」です。",
+                                        "最新のエンジニアリング動向では、単一モデルへの同期リクエストを廃止し、前段に軽量ルーターとキャッシュ層を設け、後段をイベント駆動の非同期ワーカーへ分離するアーキテクチャが標準となっています。"
+                              ],
+                              "table": {
+                                        "headers": [
+                                                  "設計領域",
+                                                  "従来の素朴な実装 (PoC)",
+                                                  "本番推奨アーキテクチャ (Production)"
+                                        ],
+                                        "rows": [
+                                                  [
+                                                            "推論コンテキスト管理",
+                                                            "毎回全文のプロンプトを送受信し再計算",
+                                                            "固定システム指示と知識チャンクを先頭に固定し Prefix KV Cache ヒット率を90%以上に維持"
+                                                  ],
+                                                  [
+                                                            "高負荷時のDB・API保護",
+                                                            "リクエスト毎にDBクエリや外部APIを直接実行",
+                                                            "Stale-While-Revalidate キャッシュと Singleflight ロックで同時再計算 (Stampede) を防止"
+                                                  ],
+                                                  [
+                                                            "長時間タスクのUX (PM視点)",
+                                                            "HTTP同期レスポンスで完了まで画面スピナー表示",
+                                                            "Job ID 即時返却 + SSE ストリーミングによる中間ステップ可視化と完了通知"
+                                                  ]
+                                        ]
+                              }
+                    }
+          ],
+          "qa": [
+                    {
+                              "role": "System Design & PM",
+                              "q": "LLMの Prompt Caching (KV Cache 再利用) の割引・高速化効果を最大化するために、プロンプト構造はどう設計すべきか？",
+                              "a": "LLMの KV Cache は先頭トークンからの完全一致（Prefix Match）で機能するため、(1) 変わらないシステムプロンプト・ツール定義・共通ドキュメントを必ずプロンプトの『先頭』に固定配置し、(2) リクエスト毎に変わるユーザーの質問や現在時刻などの動的パラメータは必ず『末尾』に配置する構造にする。"
+                    }
+          ],
+          "vocab": [
+                    {
+                              "term": "Prefix KV Caching",
+                              "meaning": "プロンプトの先頭部分が過去のリクエストと一致する場合、Transformer の Attention Key/Value テンソルを再利用して TTFT（最初の1文字までの時間）とコストを大幅に削減する機構。"
+                    },
+                    {
+                              "term": "Singleflight (Request Coalescing)",
+                              "meaning": "同一キーに対する同時多発的なキャッシュミスが発生した際、バックエンドやDBへの実際の問い合わせを1リクエストだけに絞り、その結果を待機中の全リクエストで共有する手法。"
+                    }
+          ]
+},
+        {
           id: "ai-textbook-master",
           badge: "CORE REFERENCE",
           title: "Production LLM Architecture — 生成AIシステム設計と技術選定の原則",
